@@ -1,6 +1,21 @@
 # Frontend — Temur PUBGM (client/)
 
-Vite + React 19 + Redux Toolkit + TanStack Query + shadcn/ui + Tailwind. **Based on FSD**, each role is split internally into `features/`.
+Vite + React 19 + Redux Toolkit + TanStack Query + shadcn/ui + Tailwind. **FSD asosida**, har bir rol uchun alohida panel (`owner/`, `admin/`, `leader/`), har biri ichida `features/` ga bo'lingan.
+
+## Domen va rollar
+
+**Temur PUBGM** — PUBG Mobile turnirlari platformasi. Asosiy entitylar: `Tournament`, `Team`, `Player`, `Match`.
+
+**Frontend panellari:**
+
+| Rol | Panel | Maqsad |
+|---|---|---|
+| `owner` | `client/src/owner/` | Super-admin: global sozlamalar, adminlar boshqaruvi, statistika |
+| `admin` | `client/src/admin/` | Turnirlarni yaratish/boshqarish, leader/playerlarni tasdiqlash |
+| `leader` | `client/src/leader/` | Komanda boshqaruvi, playerlarni qo'shish, turnirga ro'yxatdan o'tish |
+| `player` | — | **Veb-panel yo'q.** Player asosan **Telegram bot** orqali ishlaydi (`bot/`) |
+
+Yangi panel qo'shish — `owner/` ni `<role>/` ga klonlash; route'larni `app/routes.jsx` da, sidebar'ni `AppSidebar.jsx` (`ROLE_SIDEBAR` map), home path'ni `shared/constants/roles.js` (`ROLE_HOME`) ga ro'yxatdan o'tkazish.
 
 ## Folder structure
 
