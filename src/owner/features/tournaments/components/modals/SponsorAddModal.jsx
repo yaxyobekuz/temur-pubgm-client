@@ -3,6 +3,7 @@ import Button from "@/shared/components/ui/button/Button";
 import Input from "@/shared/components/ui/input/Input";
 import Select from "@/shared/components/ui/select/Select";
 import { useSponsorAdd } from "../../hooks/useTournaments";
+import { isPrivateTelegramUrl } from "../../utils/sponsorChannel";
 
 const TYPE_OPTIONS = [
   { value: "telegram", label: "Telegram kanal/guruh" },
@@ -15,25 +16,25 @@ const SponsorAddModal = ({ close, tournament }) => {
     title: "",
     url: "",
     chatId: "",
-    chatUsername: "",
   });
   const { mutateAsync, isPending } = useSponsorAdd();
   if (!tournament) return null;
 
   const isTelegram = state.type === "telegram";
+  const isPrivate = isTelegram && isPrivateTelegramUrl(state.url);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await mutateAsync({
-      id: tournament._id,
-      body: {
-        type: state.type,
-        title: state.title.trim(),
-        url: state.url.trim(),
-        chatId: isTelegram ? state.chatId.trim() : "",
-        chatUsername: isTelegram ? state.chatUsername.trim() : "",
-      },
-    });
+    if (isPrivate && !state.chatId.trim()) return;
+    const body = {
+      type: state.type,
+      title: state.title.trim(),
+      url: state.url.trim(),
+    };
+    if (isPrivate && state.chatId.trim()) {
+      body.chatId = state.chatId.trim();
+    }
+    await mutateAsync({ id: tournament._id, body });
     close?.();
   };
 
@@ -64,28 +65,19 @@ const SponsorAddModal = ({ close, tournament }) => {
           required
         />
       </label>
-      {isTelegram && (
-        <>
-          <label className="flex flex-col gap-1.5 text-sm">
-            Telegram username (ixtiyoriy)
-            <Input
-              value={state.chatUsername}
-              onChange={(e) => state.setField("chatUsername", e.target.value)}
-              placeholder="@channel_name"
-            />
-          </label>
-          <label className="flex flex-col gap-1.5 text-sm">
-            Chat ID (raqam - obunani tekshirish uchun)
-            <Input
-              value={state.chatId}
-              onChange={(e) => state.setField("chatId", e.target.value)}
-              placeholder="-100..."
-            />
-            <span className="text-xs text-muted-foreground">
-              Bot kanalga admin sifatida qo'shilgan bo'lishi kerak. 
-            </span>
-          </label>
-        </>
+      {isPrivate && (
+        <label className="flex flex-col gap-1.5 text-sm">
+          Chat ID
+          <Input
+            value={state.chatId}
+            onChange={(e) => state.setField("chatId", e.target.value)}
+            placeholder="-100..."
+            required
+          />
+          <span className="text-xs text-muted-foreground">
+            Yopiq kanal aniqlandi. Chat ID kiriting (bot kanalga admin sifatida qo'shilgan bo'lishi kerak).
+          </span>
+        </label>
       )}
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>

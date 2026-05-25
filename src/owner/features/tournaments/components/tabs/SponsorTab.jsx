@@ -3,6 +3,7 @@ import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
+import { getTelegramChannelIdentifier } from "../../utils/sponsorChannel";
 
 const SponsorTab = ({ tournament }) => {
   const { openModal } = useModal();
@@ -49,13 +50,10 @@ const SponsorTab = ({ tournament }) => {
                   </a>
                   {c.type === "telegram" && (
                     <div className="flex gap-2 mt-1">
-                      {c.chatUsername && (
-                        <Badge variant="secondary">{c.chatUsername}</Badge>
-                      )}
-                      {c.chatId ? (
+                      {getTelegramChannelIdentifier(c) ? (
                         <Badge variant="default">Tekshirish faol</Badge>
                       ) : (
-                        <Badge variant="outline">chatId yo'q</Badge>
+                        <Badge variant="destructive">Tekshirib bo'lmaydi</Badge>
                       )}
                     </div>
                   )}
