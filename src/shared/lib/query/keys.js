@@ -48,12 +48,4 @@ export const qk = Object.freeze({
     list: (params) => ["broadcasts", "list", params],
     one: (id) => ["broadcasts", "detail", id],
   },
-  matches: {
-    all: () => ["matches"],
-    byTournament: (tournamentId) => ["matches", "byTournament", tournamentId],
-    byStage: (stageId) => ["matches", "byStage", stageId],
-    byGroup: (groupId) => ["matches", "byGroup", groupId],
-    one: (id) => ["matches", "detail", id],
-    standings: (stageId) => ["matches", "standings", stageId],
-  },
 });

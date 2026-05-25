@@ -28,10 +28,4 @@ export const MODAL = Object.freeze({
   BROADCAST_DETAIL: "broadcast:detail",
   BROADCAST_CANCEL: "broadcast:cancel",
   BROADCAST_DELETE: "broadcast:delete",
-
-  MATCH_CREATE: "match:create",
-  MATCH_EDIT: "match:edit",
-  MATCH_DELETE: "match:delete",
-  MATCH_RESULTS: "match:results",
-  MATCH_BROADCAST_ROOM: "match:broadcastRoom",
 });

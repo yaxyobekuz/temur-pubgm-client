@@ -54,13 +54,6 @@ export const ENDPOINTS = Object.freeze({
     cancel: (id) => `/broadcasts/${id}/cancel`,
     audiencePreview: "/broadcasts/audience-preview",
   },
-  matches: {
-    base: "/matches",
-    byId: (id) => `/matches/${id}`,
-    results: (id) => `/matches/${id}/results`,
-    broadcastRoom: (id) => `/matches/${id}/broadcast-room`,
-    standings: (stageId) => `/matches/standings/${stageId}`,
-  },
   uploads: {
     image: "/uploads/image",
   },
