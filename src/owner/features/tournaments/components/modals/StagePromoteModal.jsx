@@ -55,22 +55,23 @@ const StagePromoteModal = ({ close, tournament, currentStage, groups = [] }) => 
               <div className="mb-2 font-semibold">Guruh {g.code}</div>
               {g.teams?.length ? (
                 <div className="flex flex-col divide-y">
-                  {g.teams.map((teamId) => {
-                    const id = String(teamId);
-                    return (
-                      <label
-                        key={id}
-                        className="flex items-center justify-between gap-2 py-1.5 cursor-pointer"
-                      >
-                        <span className="font-mono text-xs truncate">{id}</span>
-                        <input
-                          type="checkbox"
-                          checked={selected.has(id)}
-                          onChange={() => toggle(id)}
-                        />
-                      </label>
-                    );
-                  })}
+                  {g.teams.map((t) => (
+                    <label
+                      key={t.registrationId}
+                      className="flex items-center justify-between gap-2 py-1.5 cursor-pointer"
+                    >
+                      <span className="truncate">
+                        {t.team?.name || (
+                          <span className="font-mono text-xs">{t.registrationId}</span>
+                        )}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={selected.has(t.registrationId)}
+                        onChange={() => toggle(t.registrationId)}
+                      />
+                    </label>
+                  ))}
                 </div>
               ) : (
                 <div className="text-xs text-muted-foreground">Komanda yo'q</div>
