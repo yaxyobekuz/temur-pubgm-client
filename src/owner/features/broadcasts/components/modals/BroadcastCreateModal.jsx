@@ -41,7 +41,7 @@ const BroadcastCreateModal = ({ close }) => {
   const { mutateAsync: preview, isPending: previewing, data: previewData } =
     useAudiencePreview();
 
-  const { data: regionsData } = useRegionsQuery({ isActive: true, limit: 200 });
+  const { data: regionsData } = useRegionsQuery({ limit: 200 });
   const { data: tournamentsData } = useTournamentsQuery({ limit: 200 });
   const regionOptions = (regionsData?.data || []).map((r) => ({
     value: r._id,

@@ -25,7 +25,7 @@ const toLocalInput = (iso) => {
 };
 
 const TournamentEditModal = ({ close, tournament }) => {
-  const { data: regionsData } = useRegionsQuery({ isActive: true, limit: 200 });
+  const { data: regionsData } = useRegionsQuery({ limit: 200 });
   const regionOptions = (regionsData?.data || []).map((r) => ({
     value: r._id,
     label: r.name,

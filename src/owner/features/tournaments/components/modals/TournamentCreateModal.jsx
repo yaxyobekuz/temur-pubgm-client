@@ -16,7 +16,7 @@ const MODE_OPTIONS = Object.values(TOURNAMENT_MODE).map((v) => ({
 }));
 
 const TournamentCreateModal = ({ close }) => {
-  const { data: regionsData } = useRegionsQuery({ isActive: true, limit: 200 });
+  const { data: regionsData } = useRegionsQuery({ limit: 200 });
   const regionOptions = (regionsData?.data || []).map((r) => ({
     value: r._id,
     label: r.name,
