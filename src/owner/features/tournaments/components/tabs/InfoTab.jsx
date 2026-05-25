@@ -61,7 +61,6 @@ const InfoTab = ({ tournament }) => {
         <Row label="Slug"><span className="font-mono text-xs">{tournament.slug}</span></Row>
         <Row label="Status"><TournamentStatusBadge status={tournament.status} /></Row>
         <Row label="Rejim">{TOURNAMENT_MODE_LABELS[tournament.mode] || tournament.mode}</Row>
-        <Row label="Mintaqa">{tournament.region?.name || "-"}</Row>
         <Row label="Boshlanish">{formatDate(tournament.startDate)}</Row>
         <Row label="Mukofot fondi">{tournament.prizePool || "-"}</Row>
         <Row label="Maks. komandalar">{tournament.maxTeams}</Row>

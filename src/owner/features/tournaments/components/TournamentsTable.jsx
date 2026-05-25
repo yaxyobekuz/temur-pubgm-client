@@ -30,7 +30,6 @@ const TournamentsTable = ({ items = [], isLoading }) => {
           <tr>
             <th className="px-3 py-2 font-medium">Sarlavha</th>
             <th className="px-3 py-2 font-medium">Rejim</th>
-            <th className="px-3 py-2 font-medium">Mintaqa</th>
             <th className="px-3 py-2 font-medium">Boshlanish</th>
             <th className="px-3 py-2 font-medium">Status</th>
             <th className="px-3 py-2 font-medium text-right">Amal</th>
@@ -44,7 +43,6 @@ const TournamentsTable = ({ items = [], isLoading }) => {
                 <div className="text-xs text-muted-foreground font-mono">{t.slug}</div>
               </td>
               <td className="px-3 py-2">{TOURNAMENT_MODE_LABELS[t.mode] || t.mode}</td>
-              <td className="px-3 py-2">{t.region?.name || "-"}</td>
               <td className="px-3 py-2">{formatDate(t.startDate)}</td>
               <td className="px-3 py-2">
                 <TournamentStatusBadge status={t.status} />

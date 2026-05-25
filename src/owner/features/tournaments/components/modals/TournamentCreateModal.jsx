@@ -7,7 +7,6 @@ import {
   TOURNAMENT_MODE_LABELS,
   PUBGM_MAPS,
 } from "@/shared/constants/tournament";
-import { useRegionsQuery } from "@/owner/features/regions";
 import { useTournamentCreate } from "../../hooks/useTournaments";
 
 const MODE_OPTIONS = Object.values(TOURNAMENT_MODE).map((v) => ({
@@ -16,18 +15,11 @@ const MODE_OPTIONS = Object.values(TOURNAMENT_MODE).map((v) => ({
 }));
 
 const TournamentCreateModal = ({ close }) => {
-  const { data: regionsData } = useRegionsQuery({ limit: 200 });
-  const regionOptions = (regionsData?.data || []).map((r) => ({
-    value: r._id,
-    label: r.name,
-  }));
-
   const state = useObjectState({
     title: "",
     description: "",
     prizePool: "",
     mode: TOURNAMENT_MODE.SQUAD,
-    regionId: "",
     startDate: "",
     banner: "",
     maps: [],
@@ -48,7 +40,6 @@ const TournamentCreateModal = ({ close }) => {
       description: state.description.trim(),
       prizePool: state.prizePool.trim(),
       mode: state.mode,
-      regionId: state.regionId || undefined,
       startDate: state.startDate || undefined,
       banner: state.banner.trim(),
       maps: state.maps,
@@ -74,15 +65,6 @@ const TournamentCreateModal = ({ close }) => {
           value={state.mode}
           onChange={(v) => state.setField("mode", v)}
           options={MODE_OPTIONS}
-        />
-      </label>
-
-      <label className="flex flex-col gap-1.5 text-sm">
-        Mintaqa
-        <Select
-          value={state.regionId}
-          onChange={(v) => state.setField("regionId", v)}
-          options={[{ value: "", label: "Tanlanmagan" }, ...regionOptions]}
         />
       </label>
 

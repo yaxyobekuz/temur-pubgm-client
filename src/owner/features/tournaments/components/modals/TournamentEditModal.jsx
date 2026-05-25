@@ -9,7 +9,6 @@ import {
   TOURNAMENT_STATUS,
   PUBGM_MAPS,
 } from "@/shared/constants/tournament";
-import { useRegionsQuery } from "@/owner/features/regions";
 import { useTournamentUpdate } from "../../hooks/useTournaments";
 
 const MODE_OPTIONS = Object.values(TOURNAMENT_MODE).map((v) => ({
@@ -25,18 +24,11 @@ const toLocalInput = (iso) => {
 };
 
 const TournamentEditModal = ({ close, tournament }) => {
-  const { data: regionsData } = useRegionsQuery({ limit: 200 });
-  const regionOptions = (regionsData?.data || []).map((r) => ({
-    value: r._id,
-    label: r.name,
-  }));
-
   const state = useObjectState({
     title: "",
     description: "",
     prizePool: "",
     mode: TOURNAMENT_MODE.SQUAD,
-    regionId: "",
     startDate: "",
     banner: "",
     maps: [],
@@ -51,7 +43,6 @@ const TournamentEditModal = ({ close, tournament }) => {
         description: tournament.description || "",
         prizePool: tournament.prizePool || "",
         mode: tournament.mode || TOURNAMENT_MODE.SQUAD,
-        regionId: tournament.region?._id || tournament.region || "",
         startDate: toLocalInput(tournament.startDate),
         banner: tournament.banner || "",
         maps: tournament.maps || [],
@@ -75,7 +66,6 @@ const TournamentEditModal = ({ close, tournament }) => {
       title: state.title.trim(),
       description: state.description.trim(),
       prizePool: state.prizePool.trim(),
-      regionId: state.regionId || null,
       startDate: state.startDate ? new Date(state.startDate).toISOString() : null,
       banner: state.banner.trim(),
       maps: state.maps,
@@ -110,15 +100,6 @@ const TournamentEditModal = ({ close, tournament }) => {
             Rejim faqat qoralama bosqichida o'zgartiriladi
           </span>
         )}
-      </label>
-
-      <label className="flex flex-col gap-1.5 text-sm">
-        Mintaqa
-        <Select
-          value={state.regionId}
-          onChange={(v) => state.setField("regionId", v)}
-          options={[{ value: "", label: "Tanlanmagan" }, ...regionOptions]}
-        />
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm">
