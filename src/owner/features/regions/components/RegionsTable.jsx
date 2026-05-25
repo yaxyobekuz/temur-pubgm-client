@@ -1,8 +1,13 @@
 import { Pencil, Trash2 } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
-import Badge from "@/shared/components/ui/badge/Badge";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
+
+const formatGmt = (n) => {
+  if (n === null || n === undefined) return "-";
+  if (n === 0) return "GMT+0";
+  return n > 0 ? `GMT+${n}` : `GMT${n}`;
+};
 
 const RegionsTable = ({ items = [], isLoading }) => {
   const { openModal } = useModal();
@@ -20,28 +25,15 @@ const RegionsTable = ({ items = [], isLoading }) => {
         <thead>
           <tr>
             <th className="px-3 py-2 font-medium">Nomi</th>
-            <th className="px-3 py-2 font-medium">Kod</th>
-            <th className="px-3 py-2 font-medium">Vaqt zonasi</th>
-            <th className="px-3 py-2 font-medium">Holat</th>
+            <th className="px-3 py-2 font-medium">Vaqt</th>
             <th className="px-3 py-2 font-medium text-right">Amallar</th>
           </tr>
         </thead>
         <tbody>
           {items.map((r) => (
             <tr key={r._id} className="border-t">
-              <td className="px-3 py-2">
-                <div className="font-medium">{r.name}</div>
-                {r.nameRu && (
-                  <div className="text-xs text-muted-foreground">{r.nameRu}</div>
-                )}
-              </td>
-              <td className="px-3 py-2 font-mono text-xs">{r.code}</td>
-              <td className="px-3 py-2">{r.timezone}</td>
-              <td className="px-3 py-2">
-                <Badge variant={r.isActive ? "default" : "secondary"}>
-                  {r.isActive ? "Faol" : "Nofaol"}
-                </Badge>
-              </td>
+              <td className="px-3 py-2 font-medium">{r.name}</td>
+              <td className="px-3 py-2 font-mono">{formatGmt(r.gmtOffset)}</td>
               <td className="px-3 py-2">
                 <div className="flex items-center justify-end gap-2">
                   <Button

@@ -5,24 +5,17 @@ import Input from "@/shared/components/ui/input/Input";
 import { useRegionUpdate } from "../../hooks/useRegionMutation";
 
 const RegionEditModal = ({ close, region }) => {
-  const { name, nameRu, code, timezone, isActive, setField, setFields } =
-    useObjectState({
-      name: "",
-      nameRu: "",
-      code: "",
-      timezone: "Asia/Tashkent",
-      isActive: true,
-    });
+  const { name, gmtOffset, setField, setFields } = useObjectState({
+    name: "",
+    gmtOffset: 0,
+  });
   const { mutateAsync, isPending } = useRegionUpdate();
 
   useEffect(() => {
     if (region) {
       setFields({
         name: region.name || "",
-        nameRu: region.nameRu || "",
-        code: region.code || "",
-        timezone: region.timezone || "Asia/Tashkent",
-        isActive: !!region.isActive,
+        gmtOffset: region.gmtOffset ?? 0,
       });
     }
   }, [region]);
@@ -35,10 +28,7 @@ const RegionEditModal = ({ close, region }) => {
       id: region._id,
       body: {
         name: name.trim(),
-        nameRu: nameRu.trim(),
-        code: code.trim().toLowerCase(),
-        timezone: timezone.trim(),
-        isActive,
+        gmtOffset: Number(gmtOffset),
       },
     });
     close?.();
@@ -47,28 +37,24 @@ const RegionEditModal = ({ close, region }) => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <label className="flex flex-col gap-1.5 text-sm">
-        Nomi (uz)
-        <Input value={name} onChange={(e) => setField("name", e.target.value)} required />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Nomi (ru)
-        <Input value={nameRu} onChange={(e) => setField("nameRu", e.target.value)} />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Kod (lotin)
-        <Input value={code} onChange={(e) => setField("code", e.target.value)} required />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Vaqt zonasi (IANA)
-        <Input value={timezone} onChange={(e) => setField("timezone", e.target.value)} />
-      </label>
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={isActive}
-          onChange={(e) => setField("isActive", e.target.checked)}
+        Nomi
+        <Input
+          value={name}
+          onChange={(e) => setField("name", e.target.value)}
+          required
         />
-        Faol
+      </label>
+      <label className="flex flex-col gap-1.5 text-sm">
+        GMT soat farqi
+        <Input
+          type="number"
+          min={-12}
+          max={14}
+          step={1}
+          value={gmtOffset}
+          onChange={(e) => setField("gmtOffset", e.target.value)}
+          required
+        />
       </label>
 
       <div className="flex justify-end gap-2 pt-2">
