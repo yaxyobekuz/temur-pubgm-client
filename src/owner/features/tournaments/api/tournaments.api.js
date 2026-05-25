@@ -8,6 +8,8 @@ export const tournamentsAPI = {
   update: (id, body) => http.patch(ENDPOINTS.tournaments.byId(id), body),
   remove: (id) => http.delete(ENDPOINTS.tournaments.byId(id)),
   changeStatus: (id, next) => http.post(ENDPOINTS.tournaments.status(id), { next }),
+  promoteToNext: (id, teamIds) =>
+    http.post(ENDPOINTS.tournaments.promoteToNext(id), { teamIds }),
   addSponsor: (id, body) => http.post(ENDPOINTS.tournaments.sponsorChannels(id), body),
   removeSponsor: (id, channelId) =>
     http.delete(ENDPOINTS.tournaments.sponsorChannelById(id, channelId)),

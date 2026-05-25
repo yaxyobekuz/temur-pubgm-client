@@ -6,6 +6,8 @@ import {
   TOURNAMENT_MODE,
   TOURNAMENT_MODE_LABELS,
   PUBGM_MAPS,
+  DEFAULT_STAGES_COUNT,
+  MAX_STAGES_COUNT,
 } from "@/shared/constants/tournament";
 import { useTournamentCreate } from "../../hooks/useTournaments";
 
@@ -24,6 +26,7 @@ const TournamentCreateModal = ({ close }) => {
     banner: "",
     maps: [],
     maxTeams: 60,
+    stagesCount: DEFAULT_STAGES_COUNT,
   });
   const { mutateAsync, isPending } = useTournamentCreate();
 
@@ -44,6 +47,7 @@ const TournamentCreateModal = ({ close }) => {
       banner: state.banner.trim(),
       maps: state.maps,
       maxTeams: Number(state.maxTeams) || 60,
+      stagesCount: Number(state.stagesCount) || DEFAULT_STAGES_COUNT,
     });
     close?.();
   };
@@ -94,6 +98,20 @@ const TournamentCreateModal = ({ close }) => {
           value={state.maxTeams}
           onChange={(e) => state.setField("maxTeams", e.target.value)}
         />
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm">
+        Bosqichlar soni
+        <Input
+          type="number"
+          min={1}
+          max={MAX_STAGES_COUNT}
+          value={state.stagesCount}
+          onChange={(e) => state.setField("stagesCount", e.target.value)}
+        />
+        <span className="text-xs text-muted-foreground">
+          Oxirgi bosqich Final hisoblanadi.
+        </span>
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm">

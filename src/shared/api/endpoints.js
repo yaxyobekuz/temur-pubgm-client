@@ -33,19 +33,14 @@ export const ENDPOINTS = Object.freeze({
     base: "/tournaments",
     byId: (id) => `/tournaments/${id}`,
     status: (id) => `/tournaments/${id}/status`,
+    promoteToNext: (id) => `/tournaments/${id}/promote-to-next`,
     register: (id) => `/tournaments/${id}/register`,
     sponsorChannels: (id) => `/tournaments/${id}/sponsor-channels`,
     sponsorChannelById: (id, channelId) =>
       `/tournaments/${id}/sponsor-channels/${channelId}`,
   },
-  stages: {
-    base: "/stages",
-    byId: (id) => `/stages/${id}`,
-    promote: (id) => `/stages/${id}/promote`,
-  },
   groups: {
     base: "/groups",
-    byId: (id) => `/groups/${id}`,
     teamById: (id, teamId) => `/groups/${id}/teams/${teamId}`,
   },
   registrations: {

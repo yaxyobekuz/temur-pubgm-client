@@ -54,6 +54,18 @@ export const useTournamentChangeStatus = () => {
   });
 };
 
+export const usePromoteToNextStage = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, teamIds }) =>
+      tournamentsAPI.promoteToNext(id, teamIds).then((r) => r.data.data),
+    onSuccess: (_data, { id }) => {
+      invalidateOne(qc, id);
+      qc.invalidateQueries({ queryKey: ["groups"] });
+    },
+  });
+};
+
 export const useSponsorAdd = () => {
   const qc = useQueryClient();
   return useMutation({

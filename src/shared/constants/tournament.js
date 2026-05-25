@@ -1,10 +1,11 @@
 // Mirrors server/src/constants/tournament.js - keep in sync.
+const STAGE_KEYS = Array.from({ length: 9 }, (_, i) => [`STAGE_${i + 1}`, `stage${i + 1}`]);
+
 export const TOURNAMENT_STATUS = Object.freeze({
   DRAFT: "draft",
   ANNOUNCED: "announced",
   REGISTRATION: "registration",
-  STAGE_1: "stage1",
-  STAGE_2: "stage2",
+  ...Object.fromEntries(STAGE_KEYS),
   FINAL: "final",
   FINISHED: "finished",
 });
@@ -13,24 +14,37 @@ export const TOURNAMENT_STATUS_LABELS = Object.freeze({
   [TOURNAMENT_STATUS.DRAFT]: "Qoralama",
   [TOURNAMENT_STATUS.ANNOUNCED]: "E'lon qilindi",
   [TOURNAMENT_STATUS.REGISTRATION]: "Ro'yxatdan o'tish",
-  [TOURNAMENT_STATUS.STAGE_1]: "1-bosqich",
-  [TOURNAMENT_STATUS.STAGE_2]: "2-bosqich",
+  ...Object.fromEntries(STAGE_KEYS.map(([, v], i) => [v, `${i + 1}-bosqich`])),
   [TOURNAMENT_STATUS.FINAL]: "Final",
   [TOURNAMENT_STATUS.FINISHED]: "Yakunlandi",
 });
 
-const STATUS_TRANSITIONS = {
-  [TOURNAMENT_STATUS.DRAFT]: [TOURNAMENT_STATUS.ANNOUNCED, TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.ANNOUNCED]: [TOURNAMENT_STATUS.REGISTRATION, TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.REGISTRATION]: [TOURNAMENT_STATUS.STAGE_1, TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.STAGE_1]: [TOURNAMENT_STATUS.STAGE_2, TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.STAGE_2]: [TOURNAMENT_STATUS.FINAL, TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.FINAL]: [TOURNAMENT_STATUS.FINISHED],
-  [TOURNAMENT_STATUS.FINISHED]: [],
+export const stageNumberFromStatus = (status) => {
+  const m = /^stage(\d+)$/.exec(status || "");
+  return m ? Number(m[1]) : null;
 };
 
-export const allowedNextStatuses = (current) =>
-  STATUS_TRANSITIONS[current] || [];
+export const stageStatusFor = (stageNumber, stagesCount) => {
+  if (stageNumber < 1 || stageNumber > stagesCount) return null;
+  if (stageNumber === stagesCount) return TOURNAMENT_STATUS.FINAL;
+  return `stage${stageNumber}`;
+};
+
+export const allowedNextStatuses = (current, stagesCount = 3) => {
+  if (current === TOURNAMENT_STATUS.FINISHED) return [];
+  const FINISHED = TOURNAMENT_STATUS.FINISHED;
+  if (current === TOURNAMENT_STATUS.DRAFT) return [TOURNAMENT_STATUS.ANNOUNCED, FINISHED];
+  if (current === TOURNAMENT_STATUS.ANNOUNCED) return [TOURNAMENT_STATUS.REGISTRATION, FINISHED];
+  if (current === TOURNAMENT_STATUS.REGISTRATION) {
+    return [stageStatusFor(1, stagesCount), FINISHED].filter(Boolean);
+  }
+  if (current === TOURNAMENT_STATUS.FINAL) return [FINISHED];
+  const n = stageNumberFromStatus(current);
+  if (n !== null) {
+    return [stageStatusFor(n + 1, stagesCount), FINISHED].filter(Boolean);
+  }
+  return [];
+};
 
 export const TOURNAMENT_MODE = Object.freeze({
   SOLO: "solo",
@@ -44,35 +58,13 @@ export const TOURNAMENT_MODE_LABELS = Object.freeze({
   [TOURNAMENT_MODE.SQUAD]: "Squad (4)",
 });
 
-export const STAGE_STATUS = Object.freeze({
-  PENDING: "pending",
-  ACTIVE: "active",
-  FINISHED: "finished",
-});
+// UI helper: order raqami va umumiy soni bo'yicha yorliq.
+export const getStageLabel = (order, total) =>
+  order === total ? "Final" : `${order}-bosqich`;
 
-export const STAGE_STATUS_LABELS = Object.freeze({
-  [STAGE_STATUS.PENDING]: "Kutilmoqda",
-  [STAGE_STATUS.ACTIVE]: "Faol",
-  [STAGE_STATUS.FINISHED]: "Yakunlandi",
-});
-
-export const STAGE_ORDER = Object.freeze({
-  ONE: 1,
-  TWO: 2,
-  FINAL: "final",
-});
-
-export const STAGE_ORDER_LABELS = Object.freeze({
-  1: "1-bosqich",
-  2: "2-bosqich",
-  final: "Final",
-});
-
-export const ALL_STAGE_ORDERS = [
-  STAGE_ORDER.ONE,
-  STAGE_ORDER.TWO,
-  STAGE_ORDER.FINAL,
-];
+export const DEFAULT_STAGES_COUNT = 3;
+export const MAX_STAGES_COUNT = 9;
+export const DEFAULT_GROUP_SIZE = 20;
 
 // Common PUBG Mobile maps - owner can pick from these or type custom.
 export const PUBGM_MAPS = ["Erangel", "Miramar", "Sanhok", "Vikendi", "Livik", "Karakin"];
