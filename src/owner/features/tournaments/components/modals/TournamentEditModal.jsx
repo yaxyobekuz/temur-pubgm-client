@@ -8,6 +8,8 @@ import {
   TOURNAMENT_MODE_LABELS,
   TOURNAMENT_STATUS,
   PUBGM_MAPS,
+  DEFAULT_STAGES_COUNT,
+  MAX_STAGES_COUNT,
 } from "@/shared/constants/tournament";
 import { useTournamentUpdate } from "../../hooks/useTournaments";
 
@@ -33,6 +35,7 @@ const TournamentEditModal = ({ close, tournament }) => {
     banner: "",
     maps: [],
     maxTeams: 60,
+    stagesCount: DEFAULT_STAGES_COUNT,
   });
   const { mutateAsync, isPending } = useTournamentUpdate();
 
@@ -47,6 +50,7 @@ const TournamentEditModal = ({ close, tournament }) => {
         banner: tournament.banner || "",
         maps: tournament.maps || [],
         maxTeams: tournament.maxTeams || 60,
+        stagesCount: tournament.stagesCount || DEFAULT_STAGES_COUNT,
       });
     }
   }, [tournament]);
@@ -71,7 +75,10 @@ const TournamentEditModal = ({ close, tournament }) => {
       maps: state.maps,
       maxTeams: Number(state.maxTeams) || 60,
     };
-    if (isDraft) body.mode = state.mode;
+    if (isDraft) {
+      body.mode = state.mode;
+      body.stagesCount = Number(state.stagesCount) || DEFAULT_STAGES_COUNT;
+    }
     await mutateAsync({ id: tournament._id, body });
     close?.();
   };
@@ -127,6 +134,23 @@ const TournamentEditModal = ({ close, tournament }) => {
           value={state.maxTeams}
           onChange={(e) => state.setField("maxTeams", e.target.value)}
         />
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm">
+        Bosqichlar soni
+        <Input
+          type="number"
+          min={1}
+          max={MAX_STAGES_COUNT}
+          value={state.stagesCount}
+          onChange={(e) => state.setField("stagesCount", e.target.value)}
+          disabled={!isDraft}
+        />
+        {!isDraft && (
+          <span className="text-xs text-muted-foreground">
+            Bosqichlar soni faqat qoralama bosqichida o'zgartiriladi
+          </span>
+        )}
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm">
