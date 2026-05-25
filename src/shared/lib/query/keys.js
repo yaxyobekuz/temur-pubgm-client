@@ -1,4 +1,4 @@
-// Central registry of TanStack Query keys — extend here when adding a feature
+// Central registry of TanStack Query keys - extend here when adding a feature
 export const qk = Object.freeze({
   auth: {
     me: () => ["auth", "me"],
@@ -13,5 +13,50 @@ export const qk = Object.freeze({
     list: (params) => ["activityLogs", "list", params],
     one: (id) => ["activityLogs", "detail", id],
     stats: (params) => ["activityLogs", "stats", params],
+  },
+  regions: {
+    all: () => ["regions"],
+    list: (params) => ["regions", "list", params],
+    one: (id) => ["regions", "detail", id],
+  },
+  teams: {
+    all: () => ["teams"],
+    list: (params) => ["teams", "list", params],
+    one: (id) => ["teams", "detail", id],
+    me: () => ["teams", "me"],
+  },
+  tournaments: {
+    all: () => ["tournaments"],
+    list: (params) => ["tournaments", "list", params],
+    one: (id) => ["tournaments", "detail", id],
+  },
+  stages: {
+    byTournament: (tournamentId) => ["stages", "byTournament", tournamentId],
+  },
+  groups: {
+    byStage: (stageId) => ["groups", "byStage", stageId],
+  },
+  registrations: {
+    all: () => ["registrations"],
+    byTournament: (tournamentId, params) => [
+      "registrations",
+      "byTournament",
+      tournamentId,
+      params,
+    ],
+    byTeam: (teamId) => ["registrations", "byTeam", teamId],
+  },
+  broadcasts: {
+    all: () => ["broadcasts"],
+    list: (params) => ["broadcasts", "list", params],
+    one: (id) => ["broadcasts", "detail", id],
+  },
+  matches: {
+    all: () => ["matches"],
+    byTournament: (tournamentId) => ["matches", "byTournament", tournamentId],
+    byStage: (stageId) => ["matches", "byStage", stageId],
+    byGroup: (groupId) => ["matches", "byGroup", groupId],
+    one: (id) => ["matches", "detail", id],
+    standings: (stageId) => ["matches", "standings", stageId],
   },
 });

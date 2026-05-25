@@ -9,10 +9,64 @@ export const ENDPOINTS = Object.freeze({
   users: {
     base: "/users",
     byId: (id) => `/users/${id}`,
+    meRole: "/users/me/role",
   },
   activityLogs: {
     base: "/activity-logs",
     byId: (id) => `/activity-logs/${id}`,
     stats: "/activity-logs/stats",
+  },
+  regions: {
+    base: "/regions",
+    byId: (id) => `/regions/${id}`,
+    public: "/public/regions",
+  },
+  teams: {
+    base: "/teams",
+    byId: (id) => `/teams/${id}`,
+    me: "/teams/me",
+    meRegenerateInvite: "/teams/me/regenerate-invite",
+    meKickMember: (userId) => `/teams/me/members/${userId}`,
+    meLeave: "/teams/me/leave",
+  },
+  tournaments: {
+    base: "/tournaments",
+    byId: (id) => `/tournaments/${id}`,
+    status: (id) => `/tournaments/${id}/status`,
+    register: (id) => `/tournaments/${id}/register`,
+    sponsorChannels: (id) => `/tournaments/${id}/sponsor-channels`,
+    sponsorChannelById: (id, channelId) =>
+      `/tournaments/${id}/sponsor-channels/${channelId}`,
+  },
+  stages: {
+    base: "/stages",
+    byId: (id) => `/stages/${id}`,
+    promote: (id) => `/stages/${id}/promote`,
+  },
+  groups: {
+    base: "/groups",
+    byId: (id) => `/groups/${id}`,
+    teamById: (id, teamId) => `/groups/${id}/teams/${teamId}`,
+  },
+  registrations: {
+    base: "/tournament-registrations",
+    byId: (id) => `/tournament-registrations/${id}`,
+    kick: (id) => `/tournament-registrations/${id}/kick`,
+  },
+  broadcasts: {
+    base: "/broadcasts",
+    byId: (id) => `/broadcasts/${id}`,
+    cancel: (id) => `/broadcasts/${id}/cancel`,
+    audiencePreview: "/broadcasts/audience-preview",
+  },
+  matches: {
+    base: "/matches",
+    byId: (id) => `/matches/${id}`,
+    results: (id) => `/matches/${id}/results`,
+    broadcastRoom: (id) => `/matches/${id}/broadcast-room`,
+    standings: (stageId) => `/matches/standings/${stageId}`,
+  },
+  uploads: {
+    image: "/uploads/image",
   },
 });
