@@ -82,7 +82,7 @@ const SponsorAddModal = ({ close, tournament }) => {
               placeholder="-100..."
             />
             <span className="text-xs text-muted-foreground">
-              Bot kanalga admin sifatida qo'shilgan bo'lishi kerak. Phase 3'da auto-validate qo'shiladi.
+              Bot kanalga admin sifatida qo'shilgan bo'lishi kerak. 
             </span>
           </label>
         </>
