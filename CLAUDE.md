@@ -1,10 +1,10 @@
-# Frontend — Temur PUBGM (client/)
+# Frontend - Temur PUBGM (client/)
 
 Vite + React 19 + Redux Toolkit + TanStack Query + shadcn/ui + Tailwind. **FSD asosida**, har bir rol uchun alohida panel (`owner/`, `admin/`, `leader/`), har biri ichida `features/` ga bo'lingan.
 
 ## Domen va rollar
 
-**Temur PUBGM** — PUBG Mobile turnirlari platformasi. Asosiy entitylar: `Tournament`, `Team`, `Player`, `Match`.
+**Temur PUBGM** - PUBG Mobile turnirlari platformasi. Asosiy entitylar: `Tournament`, `Team`, `Player`, `Match`.
 
 **Frontend panellari:**
 
@@ -13,9 +13,9 @@ Vite + React 19 + Redux Toolkit + TanStack Query + shadcn/ui + Tailwind. **FSD a
 | `owner` | `client/src/owner/` | Super-admin: global sozlamalar, adminlar boshqaruvi, statistika |
 | `admin` | `client/src/admin/` | Turnirlarni yaratish/boshqarish, leader/playerlarni tasdiqlash |
 | `leader` | `client/src/leader/` | Komanda boshqaruvi, playerlarni qo'shish, turnirga ro'yxatdan o'tish |
-| `player` | — | **Veb-panel yo'q.** Player asosan **Telegram bot** orqali ishlaydi (`bot/`) |
+| `player` | - | **Veb-panel yo'q.** Player asosan **Telegram bot** orqali ishlaydi (`bot/`) |
 
-Yangi panel qo'shish — `owner/` ni `<role>/` ga klonlash; route'larni `app/routes.jsx` da, sidebar'ni `AppSidebar.jsx` (`ROLE_SIDEBAR` map), home path'ni `shared/constants/roles.js` (`ROLE_HOME`) ga ro'yxatdan o'tkazish.
+Yangi panel qo'shish - `owner/` ni `<role>/` ga klonlash; route'larni `app/routes.jsx` da, sidebar'ni `AppSidebar.jsx` (`ROLE_SIDEBAR` map), home path'ni `shared/constants/roles.js` (`ROLE_HOME`) ga ro'yxatdan o'tkazish.
 
 ## Folder structure
 
@@ -79,12 +79,12 @@ export { useUsersQuery } from "./hooks/useUsersQuery";
 
 ## Roles and protection
 
-- `shared/constants/roles.js` — `ROLES.OWNER` is the only static value. Dynamic role values come from `/auth/me`.
-- `shared/constants/permissions.js` — all permission keys (e.g. `"users.read"`).
-- `<RoleGuard roles="owner">` — if `me.role` does not match, redirects to `ROLE_HOME[role]` (or `/login`).
-- `<PermissionGuard required="users.read">` — owner always passes.
-- `useAuth()` — returns `{ user, role, isOwner, permissions }`.
-- `usePermissions()` — `has(key) -> boolean`.
+- `shared/constants/roles.js` - `ROLES.OWNER` is the only static value. Dynamic role values come from `/auth/me`.
+- `shared/constants/permissions.js` - all permission keys (e.g. `"users.read"`).
+- `<RoleGuard roles="owner">` - if `me.role` does not match, redirects to `ROLE_HOME[role]` (or `/login`).
+- `<PermissionGuard required="users.read">` - owner always passes.
+- `useAuth()` - returns `{ user, role, isOwner, permissions }`.
+- `usePermissions()` - `has(key) -> boolean`.
 
 ## Modal management
 
@@ -95,7 +95,7 @@ export { useUsersQuery } from "./hooks/useUsersQuery";
      // ...
    });
    ```
-2. Create the modal component: `feature/components/modals/UserCreateModal.jsx` — write only the main form inside it (not `ModalWrapper`); `ModalWrapper` wraps it at the page level.
+2. Create the modal component: `feature/components/modals/UserCreateModal.jsx` - write only the main form inside it (not `ModalWrapper`); `ModalWrapper` wraps it at the page level.
 3. Render it on the page:
    ```jsx
    <ModalWrapper name={MODAL.USER_CREATE} title="Foydalanuvchi qo'shish">
@@ -132,11 +132,11 @@ export { useUsersQuery } from "./hooks/useUsersQuery";
       queryFn: () => usersAPI.list(params).then((r) => r.data.data),
     });
   ```
-- `qk` — global query key registry (`shared/lib/query/keys.js`). **Do not invent keys out of thin air**, always go through this registry.
+- `qk` - global query key registry (`shared/lib/query/keys.js`). **Do not invent keys out of thin air**, always go through this registry.
 
 ## State management (strict)
 
-If a component holds **more than 1 state** — instead of multiplying `useState` calls, **use `useObjectState`**:
+If a component holds **more than 1 state** - instead of multiplying `useState` calls, **use `useObjectState`**:
 
 ```js
 // ❌
@@ -154,12 +154,12 @@ Exceptions (only these three cases):
 2. Inside another hook implementation (`useObjectState` itself lives there).
 3. When lazy init is needed (rare).
 
-Details — `.claude/skills/manage-state-with-useobjectstate/SKILL.md`.
+Details - `.claude/skills/manage-state-with-useobjectstate/SKILL.md`.
 
 ## Language rules
 
-- UI text — Uzbek (`"Saqlash"`, `"Bekor qilish"`, `"Foydalanuvchilar ro'yxati"`).
-- Code values — English (`role: "owner"`, `MODAL.USER_CREATE`, route `/users`, query key `["users", "list"]`).
+- UI text - Uzbek (`"Saqlash"`, `"Bekor qilish"`, `"Foydalanuvchilar ro'yxati"`).
+- Code values - English (`role: "owner"`, `MODAL.USER_CREATE`, route `/users`, query key `["users", "list"]`).
 
 ## Aliases (jsconfig.json)
 

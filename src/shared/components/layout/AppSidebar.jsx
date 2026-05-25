@@ -52,8 +52,8 @@ import { ROLES } from "@/shared/constants/roles";
 import { ownerSidebar } from "@/owner";
 import { logoIcon } from "@/shared/assets/icons";
 
-// Map a role value to its sidebar config. Add new entries here as new
-// role panels are introduced (e.g. cloning `owner/` into another panel).
+// Map a role value to its sidebar config. Only `owner` (and future `admin`) have a web panel;
+// `leader` and `player` work exclusively through the Telegram bot.
 const ROLE_SIDEBAR = {
   [ROLES.OWNER]: ownerSidebar,
 };
