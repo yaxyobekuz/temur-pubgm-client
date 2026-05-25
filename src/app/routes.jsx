@@ -19,7 +19,7 @@ import { ROLES, ROLE_HOME } from "@/shared/constants/roles";
 // Features
 import { LoginPage } from "@/features/auth";
 
-// Role panels — only `owner` (and future `admin`) have a web panel.
+// Role panels - only `owner` (and future `admin`) have a web panel.
 // `leader` and `player` work exclusively through the Telegram bot.
 import { OwnerRoutes } from "@/owner";
 
