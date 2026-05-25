@@ -44,7 +44,7 @@ const StandingsTab = ({ tournament }) => {
       ) : (
         <div className="w-full overflow-x-auto rounded-[2px] border bg-white">
           <table className="w-full text-sm">
-            <thead className="bg-muted/40 text-left">
+            <thead>
               <tr>
                 <th className="px-3 py-2 font-medium w-12 text-center">#</th>
                 <th className="px-3 py-2 font-medium">Komanda</th>

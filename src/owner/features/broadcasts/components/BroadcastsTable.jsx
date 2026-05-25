@@ -20,7 +20,7 @@ const BroadcastsTable = ({ items = [], isLoading }) => {
   return (
     <div className="w-full overflow-x-auto rounded-[2px] border bg-white">
       <table className="w-full text-sm">
-        <thead className="bg-muted/40 text-left">
+        <thead>
           <tr>
             <th className="px-3 py-2 font-medium">Sarlavha</th>
             <th className="px-3 py-2 font-medium">Maqsad</th>

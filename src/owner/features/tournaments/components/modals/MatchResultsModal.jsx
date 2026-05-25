@@ -75,7 +75,7 @@ const MatchResultsModal = ({ close, match, tournamentId }) => {
       </p>
       <div className="rounded-[2px] border bg-white max-h-96 overflow-y-auto">
         <table className="w-full text-sm">
-          <thead className="bg-muted/40 text-left">
+          <thead>
             <tr>
               <th className="px-3 py-2 font-medium">Komanda</th>
               <th className="px-3 py-2 font-medium w-20">Place</th>
