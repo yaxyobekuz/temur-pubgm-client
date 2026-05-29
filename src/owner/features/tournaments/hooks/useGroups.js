@@ -17,3 +17,12 @@ export const useGroupRemoveTeam = (stageId) => {
     onSuccess: () => qc.invalidateQueries({ queryKey: qk.groups.byStage(stageId) }),
   });
 };
+
+export const useGroupAddTeam = (stageId) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, teamId }) =>
+      groupsAPI.addTeam(id, teamId).then((r) => r.data.data),
+    onSuccess: () => qc.invalidateQueries({ queryKey: qk.groups.byStage(stageId) }),
+  });
+};

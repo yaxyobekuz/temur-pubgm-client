@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowRight, Trash2, UserPlus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
-import Select from "@/shared/components/ui/select/Select";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { TOURNAMENT_STATUS, getStageLabel } from "@/shared/constants/tournament";
-import { useGroupsQuery, useGroupRemoveTeam } from "../../hooks/useGroups";
+import { REGISTRATION_STATUS } from "@/shared/constants/registration";
+import { useGroupsQuery } from "../../hooks/useGroups";
+import { useRegistrationsByTournament } from "../../hooks/useRegistrations";
 
 // A stage is active only while the tournament is ONGOING and sitting on that stage.
 const isStageActive = (tournament, stageOrder) =>
@@ -18,7 +20,7 @@ const currentStageOrder = (tournament) =>
 
 const GroupsTab = ({ tournament }) => {
   const { openModal } = useModal();
-  const stages = tournament.stages || [];
+  const stages = useMemo(() => tournament.stages || [], [tournament.stages]);
   const total = tournament.stagesCount || stages.length;
 
   const defaultStage = useMemo(() => {
@@ -32,7 +34,20 @@ const GroupsTab = ({ tournament }) => {
   const effectiveStageId = stage?._id;
 
   const { data: groups = [], isLoading } = useGroupsQuery(effectiveStageId);
-  const removeTeam = useGroupRemoveTeam(effectiveStageId);
+  const { data: registrations = [] } = useRegistrationsByTournament(
+    tournament._id,
+    REGISTRATION_STATUS.REGISTERED,
+  );
+
+  // Registered teams not currently placed in any group of this stage - can be (re)added.
+  const candidates = useMemo(() => {
+    const placed = new Set(
+      groups.flatMap((g) => (g.teams || []).map((t) => String(t.registrationId))),
+    );
+    return registrations
+      .filter((r) => !placed.has(String(r._id)))
+      .map((r) => ({ registrationId: r._id, team: r.team }));
+  }, [groups, registrations]);
 
   if (!stages.length) {
     return (
@@ -54,16 +69,13 @@ const GroupsTab = ({ tournament }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <label className="flex flex-col gap-1.5 text-sm">
-          Bosqich
-          <div className="min-w-44">
-            <Select
-              value={effectiveStageId}
-              onChange={(v) => setStageId(v)}
-              options={stageOptions}
-            />
-          </div>
-        </label>
+        <SelectField
+          label="Bosqich"
+          className="min-w-44"
+          value={effectiveStageId}
+          onChange={(v) => setStageId(v)}
+          options={stageOptions}
+        />
         {canPromote && (
           <Button
             onClick={() =>
@@ -91,11 +103,30 @@ const GroupsTab = ({ tournament }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {groups.map((g) => (
             <div key={g._id} className="rounded-[2px] border bg-white p-3 flex flex-col gap-2">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <div className="font-semibold text-lg">Guruh {g.code}</div>
-                <Badge variant="secondary">
-                  {g.teams?.length || 0} / {g.maxTeams}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary">
+                    {g.teams?.length || 0} / {g.maxTeams}
+                  </Badge>
+                  {(g.teams?.length || 0) < g.maxTeams && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={!candidates.length}
+                      onClick={() =>
+                        openModal(MODAL.GROUP_ADD_TEAM, {
+                          group: g,
+                          stageId: effectiveStageId,
+                          candidates,
+                        })
+                      }
+                    >
+                      <UserPlus size={14} className="mr-1" />
+                      Komanda qo'shish
+                    </Button>
+                  )}
+                </div>
               </div>
               {g.teams?.length ? (
                 <ul className="flex flex-col divide-y text-sm">
@@ -112,9 +143,12 @@ const GroupsTab = ({ tournament }) => {
                       <Button
                         variant="outline"
                         size="sm"
-                        disabled={removeTeam.isPending}
                         onClick={() =>
-                          removeTeam.mutate({ id: g._id, teamId: t.registrationId })
+                          openModal(MODAL.GROUP_REMOVE_TEAM, {
+                            group: g,
+                            team: t,
+                            stageId: effectiveStageId,
+                          })
                         }
                       >
                         <Trash2 size={14} />

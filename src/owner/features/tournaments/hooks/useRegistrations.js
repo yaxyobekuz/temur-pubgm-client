@@ -15,7 +15,7 @@ export const useRegistrationsByTournament = (tournamentId, status) =>
 // Invalidate every byTournament query for this tournament regardless of its params.
 const invalidateByTournament = (qc, tournamentId) =>
   qc.invalidateQueries({
-    queryKey: ["registrations", "byTournament", tournamentId],
+    queryKey: qk.registrations.byTournament(tournamentId),
   });
 
 export const useRegistrationKick = (tournamentId) => {

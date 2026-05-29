@@ -31,16 +31,16 @@ export const qk = Object.freeze({
     one: (id) => ["tournaments", "detail", id],
   },
   groups: {
+    all: () => ["groups"],
     byStage: (stageId) => ["groups", "byStage", stageId],
   },
   registrations: {
     all: () => ["registrations"],
-    byTournament: (tournamentId, params) => [
-      "registrations",
-      "byTournament",
-      tournamentId,
-      params,
-    ],
+    // Omit params to get a prefix key that matches every status variant (for invalidation).
+    byTournament: (tournamentId, params) =>
+      params === undefined
+        ? ["registrations", "byTournament", tournamentId]
+        : ["registrations", "byTournament", tournamentId, params],
     byTeam: (teamId) => ["registrations", "byTeam", teamId],
   },
   broadcasts: {

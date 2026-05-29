@@ -19,6 +19,8 @@ import TournamentStatusModal from "../components/modals/TournamentStatusModal";
 import StagePromoteModal from "../components/modals/StagePromoteModal";
 import SponsorAddModal from "../components/modals/SponsorAddModal";
 import SponsorDeleteModal from "../components/modals/SponsorDeleteModal";
+import GroupRemoveTeamModal from "../components/modals/GroupRemoveTeamModal";
+import GroupAddTeamModal from "../components/modals/GroupAddTeamModal";
 
 const TournamentDetailPage = () => {
   const { id } = useParams();
@@ -85,6 +87,12 @@ const TournamentDetailPage = () => {
         className="max-w-xl"
       >
         <StagePromoteModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.GROUP_REMOVE_TEAM} title="Komandani guruhdan chiqarish">
+        <GroupRemoveTeamModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.GROUP_ADD_TEAM} title="Guruhga komanda qo'shish">
+        <GroupAddTeamModal />
       </ModalWrapper>
 
       <ModalWrapper name={MODAL.SPONSOR_ADD} title="Homiy kanal qo'shish">

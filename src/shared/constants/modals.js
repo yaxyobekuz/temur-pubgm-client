@@ -18,6 +18,9 @@ export const MODAL = Object.freeze({
   TOURNAMENT_STATUS: "tournament:status",
   STAGE_PROMOTE: "stage:promote",
 
+  GROUP_REMOVE_TEAM: "group:removeTeam",
+  GROUP_ADD_TEAM: "group:addTeam",
+
   SPONSOR_ADD: "sponsor:add",
   SPONSOR_DELETE: "sponsor:delete",
 

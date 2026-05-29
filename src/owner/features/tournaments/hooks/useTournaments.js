@@ -61,7 +61,7 @@ export const usePromoteToNextStage = () => {
       tournamentsAPI.promoteToNext(id, teamIds).then((r) => r.data.data),
     onSuccess: (_data, { id }) => {
       invalidateOne(qc, id);
-      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: qk.groups.all() });
     },
   });
 };

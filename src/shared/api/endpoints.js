@@ -42,6 +42,7 @@ export const ENDPOINTS = Object.freeze({
   },
   groups: {
     base: "/groups",
+    teams: (id) => `/groups/${id}/teams`,
     teamById: (id, teamId) => `/groups/${id}/teams/${teamId}`,
   },
   registrations: {
