@@ -4,6 +4,7 @@ import Badge from "@/shared/components/ui/badge/Badge";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { formatDateTimeUZ } from "@/shared/utils/date.utils";
+import { toMediaUrl } from "@/shared/utils/mediaUrl";
 import {
   REGISTRATION_STATUS,
   REGISTRATION_STATUS_LABELS,
@@ -45,11 +46,22 @@ const RegistrationsTab = ({ tournament }) => {
         return (
           <div key={r._id} className="rounded-[2px] border bg-white p-3 flex flex-col gap-2">
             <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="font-medium">{r.team?.name}</div>
-                <div className="text-xs text-muted-foreground">
-                  {formatDateTimeUZ(r.registeredAt)}
-                  {r.currentGroup?.code && ` • Guruh: ${r.currentGroup.code}`}
+              <div className="flex items-center gap-3">
+                {r.team?.logo ? (
+                  <img
+                    src={toMediaUrl(r.team.logo)}
+                    alt={r.team?.name}
+                    className="size-10 rounded-[2px] border object-cover"
+                  />
+                ) : (
+                  <div className="size-10 rounded-[2px] border bg-muted" />
+                )}
+                <div>
+                  <div className="font-medium">{r.team?.name}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {formatDateTimeUZ(r.registeredAt)}
+                    {r.currentGroup?.code && ` • Guruh: ${r.currentGroup.code}`}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
