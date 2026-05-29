@@ -10,6 +10,7 @@ export const ENDPOINTS = Object.freeze({
     base: "/users",
     byId: (id) => `/users/${id}`,
     meRole: "/users/me/role",
+    mePassword: "/users/me/password",
   },
   activityLogs: {
     base: "/activity-logs",
@@ -47,6 +48,11 @@ export const ENDPOINTS = Object.freeze({
     base: "/tournament-registrations",
     byId: (id) => `/tournament-registrations/${id}`,
     kick: (id) => `/tournament-registrations/${id}/kick`,
+    restore: (id) => `/tournament-registrations/${id}/restore`,
+  },
+  helpLinks: {
+    base: "/help-links",
+    byId: (id) => `/help-links/${id}`,
   },
   broadcasts: {
     base: "/broadcasts",
