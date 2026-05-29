@@ -1,4 +1,4 @@
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Settings } from "lucide-react";
 import { PERMISSIONS } from "@/shared/constants/permissions";
 
 const ownerSidebar = [
@@ -18,11 +18,13 @@ const ownerSidebar = [
         url: "/owner/teams",
         permission: PERMISSIONS.TEAMS_READ,
       },
-      {
-        title: "Xabarnomalar",
-        url: "/owner/broadcasts",
-        permission: PERMISSIONS.BROADCASTS_READ,
-      },
+    ],
+  },
+  {
+    title: "Sozlamalar",
+    icon: Settings,
+    isActive: true,
+    items: [
       {
         title: "Mintaqalar",
         url: "/owner/regions",
