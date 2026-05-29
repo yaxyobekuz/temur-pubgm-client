@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/shared/components/ui/button/Button";
-import Select from "@/shared/components/ui/select/Select";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import {
   allowedNextStatuses,
   TOURNAMENT_STATUS_LABELS,
@@ -43,14 +43,12 @@ const TournamentStatusModal = ({ close, tournament }) => {
           {TOURNAMENT_STATUS_LABELS[tournament.status] || tournament.status}
         </span>
       </div>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Yangi status
-        <Select
-          value={next}
-          onChange={setNext}
-          options={[{ value: "", label: "Tanlang", disabled: true }, ...options]}
-        />
-      </label>
+      <SelectField
+        label="Yangi status"
+        value={next}
+        onChange={setNext}
+        options={[{ value: "", label: "Tanlang", disabled: true }, ...options]}
+      />
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>
           Bekor qilish

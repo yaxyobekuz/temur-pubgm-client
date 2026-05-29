@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import { ImagePlus, Plus, X } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import { Plus, X } from "lucide-react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import Input from "@/shared/components/ui/input/Input";
-import Select from "@/shared/components/ui/select/Select";
+import InputField from "@/shared/components/ui/input/InputField";
+import InputHttps from "@/shared/components/ui/input/InputHttps";
+import SelectField from "@/shared/components/ui/select/SelectField";
+import ImageUpload from "@/shared/components/ui/upload/ImageUpload";
 import {
   BROADCAST_TARGET,
   BROADCAST_TARGET_LABELS,
@@ -15,7 +18,6 @@ import {
   useBroadcastCreate,
   useAudiencePreview,
 } from "../../hooks/useBroadcasts";
-import { uploadsAPI } from "../../api/uploads.api";
 
 const TARGET_OPTIONS = Object.values(BROADCAST_TARGET).map((v) => ({
   value: v,
@@ -109,76 +111,27 @@ const BroadcastCreateModal = ({ close }) => {
     state.setField("targetIds", [...set]);
   };
 
-  const [uploading, setUploading] = useState(false);
-  const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(
-    /\/api\/?$/,
-    "",
-  );
-  const absoluteMediaUrl = state.mediaUrl?.startsWith("/uploads/")
-    ? `${apiBase}${state.mediaUrl}`
-    : state.mediaUrl;
-
-  const onFileSelected = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const res = await uploadsAPI.image(file);
-      // Server returns a /uploads/... relative path; the bot fetches via the public URL.
-      state.setField("mediaUrl", `${apiBase}${res.data.data.url}`);
-    } finally {
-      setUploading(false);
-      e.target.value = "";
-    }
-  };
-
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Sarlavha
-        <Input
-          value={state.title}
-          onChange={(e) => state.setField("title", e.target.value)}
-          required
-        />
-      </label>
+      <InputField
+        label="Sarlavha"
+        value={state.title}
+        onChange={(e) => state.setField("title", e.target.value)}
+        required
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Matn (HTML qabul qilinadi)
-        <Input
-          type="textarea"
-          value={state.body}
-          onChange={(e) => state.setField("body", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Matn"
+        type="textarea"
+        value={state.body}
+        onChange={(e) => state.setField("body", e.target.value)}
+      />
 
-      <div className="flex flex-col gap-1.5 text-sm">
-        <div className="flex items-center justify-between">
-          <span>Rasm (ixtiyoriy)</span>
-          <label className="cursor-pointer text-xs inline-flex items-center gap-1 text-primary hover:underline">
-            <ImagePlus size={14} />
-            {uploading ? "Yuklanmoqda..." : "Yuklash"}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={onFileSelected}
-            />
-          </label>
-        </div>
-        <Input
-          value={state.mediaUrl}
-          onChange={(e) => state.setField("mediaUrl", e.target.value)}
-          placeholder="https://... yoki yuklang"
-        />
-        {absoluteMediaUrl && (
-          <img
-            src={absoluteMediaUrl}
-            alt=""
-            className="w-full max-h-40 object-cover rounded-[2px] border"
-          />
-        )}
-      </div>
+      <ImageUpload
+        label="Rasm (ixtiyoriy)"
+        value={state.mediaUrl}
+        onChange={(v) => state.setField("mediaUrl", v)}
+      />
 
       <div className="flex flex-col gap-1.5 text-sm">
         <div className="flex items-center justify-between">
@@ -195,12 +148,11 @@ const BroadcastCreateModal = ({ close }) => {
                 value={b.text}
                 onChange={(e) => onChangeButton(i, "text", e.target.value)}
               />
-              <Input
-                placeholder="https://..."
+              <InputHttps
                 value={b.url}
                 onChange={(e) => onChangeButton(i, "url", e.target.value)}
               />
-              <Button type="button" variant="outline" size="sm" onClick={() => onRemoveButton(i)}>
+              <Button type="button" variant="danger" size="sm" onClick={() => onRemoveButton(i)}>
                 <X size={16} />
               </Button>
             </div>
@@ -208,14 +160,12 @@ const BroadcastCreateModal = ({ close }) => {
         </div>
       </div>
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Auditoriya
-        <Select
-          value={state.targetType}
-          onChange={(v) => state.setField("targetType", v)}
-          options={TARGET_OPTIONS}
-        />
-      </label>
+      <SelectField
+        label="Auditoriya"
+        value={state.targetType}
+        onChange={(v) => state.setField("targetType", v)}
+        options={TARGET_OPTIONS}
+      />
 
       {needsIds && (
         <div className="flex flex-col gap-1.5 text-sm">
@@ -240,14 +190,12 @@ const BroadcastCreateModal = ({ close }) => {
         </div>
       )}
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Yuborish vaqti (bo'sh = darhol)
-        <Input
-          type="datetime-local"
-          value={state.scheduledAt}
-          onChange={(e) => state.setField("scheduledAt", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Yuborish vaqti (bo'sh = darhol)"
+        type="datetime-local"
+        value={state.scheduledAt}
+        onChange={(e) => state.setField("scheduledAt", e.target.value)}
+      />
 
       <div className="flex items-center justify-between">
         <Button type="button" variant="outline" onClick={onPreview} disabled={previewing}>

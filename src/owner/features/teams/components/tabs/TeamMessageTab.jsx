@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { ImagePlus, Plus, Send, X } from "lucide-react";
+import { Plus, Send, X } from "lucide-react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
+import InputHttps from "@/shared/components/ui/input/InputHttps";
+import ImageUpload from "@/shared/components/ui/upload/ImageUpload";
 import { BROADCAST_TARGET } from "@/shared/constants/broadcast";
 import {
   useBroadcastCreate,
   useAudiencePreview,
-  uploadsAPI,
 } from "@/owner/features/broadcasts";
-
-const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(
-  /\/api\/?$/,
-  "",
-);
 
 // Inline composer (no modal) for messaging a single team via the broadcast pipeline.
 const TeamMessageTab = ({ teamId }) => {
@@ -23,7 +20,6 @@ const TeamMessageTab = ({ teamId }) => {
     mediaUrl: "",
     buttons: [], // [{text, url}]
   });
-  const [uploading, setUploading] = useState(false);
   const [sent, setSent] = useState(false);
 
   const { mutateAsync: create, isPending } = useBroadcastCreate();
@@ -47,19 +43,6 @@ const TeamMessageTab = ({ teamId }) => {
     state.setField("buttons", state.buttons.filter((_, idx) => idx !== i));
   };
 
-  const onFileSelected = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const res = await uploadsAPI.image(file);
-      state.setField("mediaUrl", `${apiBase}${res.data.data.url}`);
-    } finally {
-      setUploading(false);
-      e.target.value = "";
-    }
-  };
-
   const onPreview = async () => {
     await preview(target);
   };
@@ -78,60 +61,30 @@ const TeamMessageTab = ({ teamId }) => {
     setSent(true);
   };
 
-  const absoluteMediaUrl = state.mediaUrl?.startsWith("/uploads/")
-    ? `${apiBase}${state.mediaUrl}`
-    : state.mediaUrl;
-
   return (
     <form
       onSubmit={onSubmit}
       className="flex flex-col gap-4 rounded-[2px] border bg-white p-4"
     >
-      <label className="flex flex-col gap-1.5 text-sm">
-        Sarlavha
-        <Input
-          value={state.title}
-          onChange={(e) => state.setField("title", e.target.value)}
-          required
-        />
-      </label>
+      <InputField
+        label="Sarlavha"
+        value={state.title}
+        onChange={(e) => state.setField("title", e.target.value)}
+        required
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Matn (HTML qabul qilinadi)
-        <Input
-          type="textarea"
-          value={state.body}
-          onChange={(e) => state.setField("body", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Matn"
+        type="textarea"
+        value={state.body}
+        onChange={(e) => state.setField("body", e.target.value)}
+      />
 
-      <div className="flex flex-col gap-1.5 text-sm">
-        <div className="flex items-center justify-between">
-          <span>Rasm (ixtiyoriy)</span>
-          <label className="cursor-pointer text-xs inline-flex items-center gap-1 text-primary hover:underline">
-            <ImagePlus size={14} />
-            {uploading ? "Yuklanmoqda..." : "Yuklash"}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={onFileSelected}
-            />
-          </label>
-        </div>
-        <Input
-          value={state.mediaUrl}
-          onChange={(e) => state.setField("mediaUrl", e.target.value)}
-          placeholder="https://... yoki yuklang"
-        />
-        {absoluteMediaUrl && (
-          <img
-            src={absoluteMediaUrl}
-            alt=""
-            className="w-full max-h-40 object-cover rounded-[2px] border"
-          />
-        )}
-      </div>
+      <ImageUpload
+        label="Rasm (ixtiyoriy)"
+        value={state.mediaUrl}
+        onChange={(v) => state.setField("mediaUrl", v)}
+      />
 
       <div className="flex flex-col gap-1.5 text-sm">
         <div className="flex items-center justify-between">
@@ -148,14 +101,13 @@ const TeamMessageTab = ({ teamId }) => {
                 value={b.text}
                 onChange={(e) => onChangeButton(i, "text", e.target.value)}
               />
-              <Input
-                placeholder="https://..."
+              <InputHttps
                 value={b.url}
                 onChange={(e) => onChangeButton(i, "url", e.target.value)}
               />
               <Button
                 type="button"
-                variant="outline"
+                variant="danger"
                 size="sm"
                 onClick={() => onRemoveButton(i)}
               >
