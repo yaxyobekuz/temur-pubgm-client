@@ -9,6 +9,7 @@ export const ENDPOINTS = Object.freeze({
   users: {
     base: "/users",
     byId: (id) => `/users/${id}`,
+    me: "/users/me",
     meRole: "/users/me/role",
     mePassword: "/users/me/password",
   },
