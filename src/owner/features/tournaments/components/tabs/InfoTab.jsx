@@ -58,7 +58,6 @@ const InfoTab = ({ tournament }) => {
 
       <div className="rounded-[2px] border bg-white px-4 py-2">
         <Row label="Sarlavha">{tournament.title}</Row>
-        <Row label="Slug"><span className="font-mono text-xs">{tournament.slug}</span></Row>
         <Row label="Status"><TournamentStatusBadge status={tournament.status} /></Row>
         {tournament.status === TOURNAMENT_STATUS.ONGOING && (
           <Row label="Joriy bosqich">
