@@ -10,6 +10,7 @@ import InfoTab from "../components/tabs/InfoTab";
 import GroupsTab from "../components/tabs/GroupsTab";
 import SponsorTab from "../components/tabs/SponsorTab";
 import RegistrationsTab from "../components/tabs/RegistrationsTab";
+import MessageTab from "../components/tabs/MessageTab";
 import RegistrationKickModal from "../components/modals/RegistrationKickModal";
 import RegistrationRestoreModal from "../components/modals/RegistrationRestoreModal";
 import TournamentEditModal from "../components/modals/TournamentEditModal";
@@ -47,6 +48,11 @@ const TournamentDetailPage = () => {
       value: "registrations",
       label: "Ro'yxatdan o'tganlar",
       content: <RegistrationsTab tournament={tournament} />,
+    },
+    {
+      value: "message",
+      label: "Xabar yuborish",
+      content: <MessageTab tournamentId={tournament._id} />,
     },
   ];
 
