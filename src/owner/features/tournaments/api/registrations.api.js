@@ -5,4 +5,5 @@ export const registrationsAPI = {
   list: (params) => http.get(ENDPOINTS.registrations.base, { params }),
   byId: (id) => http.get(ENDPOINTS.registrations.byId(id)),
   kick: (id) => http.post(ENDPOINTS.registrations.kick(id)),
+  restore: (id) => http.post(ENDPOINTS.registrations.restore(id)),
 };

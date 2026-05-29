@@ -1,8 +1,9 @@
-import { UserMinus } from "lucide-react";
+import { UserMinus, UserPlus } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
+import { formatDateTimeUZ } from "@/shared/utils/date.utils";
 import {
   REGISTRATION_STATUS,
   REGISTRATION_STATUS_LABELS,
@@ -47,7 +48,7 @@ const RegistrationsTab = ({ tournament }) => {
               <div>
                 <div className="font-medium">{r.team?.name}</div>
                 <div className="text-xs text-muted-foreground">
-                  {new Date(r.registeredAt).toLocaleString("uz-UZ")}
+                  {formatDateTimeUZ(r.registeredAt)}
                   {r.currentGroup?.code && ` • Guruh: ${r.currentGroup.code}`}
                 </div>
               </div>
@@ -55,7 +56,21 @@ const RegistrationsTab = ({ tournament }) => {
                 <Badge variant={isKicked ? "secondary" : "default"}>
                   {REGISTRATION_STATUS_LABELS[r.status]}
                 </Badge>
-                {!isKicked && (
+                {isKicked ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      openModal(MODAL.REGISTRATION_RESTORE, {
+                        registration: r,
+                        tournamentId: tournament._id,
+                      })
+                    }
+                  >
+                    <UserPlus size={16} className="mr-1" />
+                    Qaytarish
+                  </Button>
+                ) : (
                   <Button
                     variant="outline"
                     size="sm"

@@ -11,6 +11,7 @@ import GroupsTab from "../components/tabs/GroupsTab";
 import SponsorTab from "../components/tabs/SponsorTab";
 import RegistrationsTab from "../components/tabs/RegistrationsTab";
 import RegistrationKickModal from "../components/modals/RegistrationKickModal";
+import RegistrationRestoreModal from "../components/modals/RegistrationRestoreModal";
 import TournamentEditModal from "../components/modals/TournamentEditModal";
 import TournamentDeleteModal from "../components/modals/TournamentDeleteModal";
 import TournamentStatusModal from "../components/modals/TournamentStatusModal";
@@ -89,6 +90,9 @@ const TournamentDetailPage = () => {
 
       <ModalWrapper name={MODAL.REGISTRATION_KICK} title="Komandani chiqarish">
         <RegistrationKickModal />
+      </ModalWrapper>
+      <ModalWrapper name={MODAL.REGISTRATION_RESTORE} title="Komandani qaytarish">
+        <RegistrationRestoreModal />
       </ModalWrapper>
     </div>
   );

@@ -22,10 +22,15 @@ export const MODAL = Object.freeze({
   SPONSOR_DELETE: "sponsor:delete",
 
   REGISTRATION_KICK: "registration:kick",
+  REGISTRATION_RESTORE: "registration:restore",
   REGISTRATION_DETAIL: "registration:detail",
 
   BROADCAST_CREATE: "broadcast:create",
   BROADCAST_DETAIL: "broadcast:detail",
   BROADCAST_CANCEL: "broadcast:cancel",
   BROADCAST_DELETE: "broadcast:delete",
+
+  HELP_LINK_CREATE: "helpLink:create",
+  HELP_LINK_EDIT: "helpLink:edit",
+  HELP_LINK_DELETE: "helpLink:delete",
 });
