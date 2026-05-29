@@ -30,10 +30,12 @@ const InputHttps = ({ className = "", value = "", onChange, name, ...props }) =>
       )}
     >
       <span className="select-none text-muted-foreground">{PREFIX}</span>
+      {/* type="text" not "url": the field holds only the part after https://, which the
+          browser would reject as an invalid URL. Validity is handled by HTTPS_URL_RE. */}
       <input
         {...props}
         name={name}
-        type="url"
+        type="text"
         inputMode="url"
         value={rest}
         onChange={handleChange}
