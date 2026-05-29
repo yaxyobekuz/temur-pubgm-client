@@ -49,7 +49,7 @@ const ImageUpload = ({ value = "", onChange, label = "", disabled = false, class
           <img
             src={toMediaUrl(value)}
             alt=""
-            className="w-full max-h-40 object-cover rounded-[2px] border"
+            className="w-full max-h-40 object-contain rounded-[2px] border bg-muted"
           />
           <div className="flex items-center gap-2">
             <Button
