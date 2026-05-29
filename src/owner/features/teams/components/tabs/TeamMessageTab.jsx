@@ -87,10 +87,6 @@ const TeamMessageTab = ({ teamId }) => {
       onSubmit={onSubmit}
       className="flex flex-col gap-4 rounded-[2px] border bg-white p-4"
     >
-      <p className="text-sm text-muted-foreground">
-        Xabar shu komandaning sardori va barcha a'zolariga bot orqali yuboriladi.
-      </p>
-
       <label className="flex flex-col gap-1.5 text-sm">
         Sarlavha
         <Input
