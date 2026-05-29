@@ -1,9 +1,10 @@
 import Badge from "@/shared/components/ui/badge/Badge";
 import { useBroadcastQuery } from "../../hooks/useBroadcasts";
 import { BROADCAST_TARGET_LABELS } from "@/shared/constants/broadcast";
+import { formatDateTimeUZ } from "@/shared/utils/date.utils";
 import BroadcastStatusBadge from "../BroadcastStatusBadge";
 
-const fmt = (iso) => (iso ? new Date(iso).toLocaleString("uz-UZ") : "-");
+const fmt = (iso) => (iso ? formatDateTimeUZ(iso) : "-");
 
 const Row = ({ label, children }) => (
   <div className="flex flex-col gap-1 border-t py-2 first:border-t-0 sm:flex-row sm:items-center">

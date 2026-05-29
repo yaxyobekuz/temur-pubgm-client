@@ -27,6 +27,18 @@ export const formatDateUZ = (date, options = {}) => {
   return `${day}-${month}, ${year}`;
 };
 
+// 24h time, e.g. "16:30".
+export const formatTimeUZ = (date) =>
+  new Date(date).toLocaleTimeString("uz-UZ", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+// "21-may, 2025 16:30".
+export const formatDateTimeUZ = (date) =>
+  `${formatDateUZ(date)} ${formatTimeUZ(date)}`;
+
 export const formatDateUZAlt = (date) => {
   const dateObj = new Date(date);
 

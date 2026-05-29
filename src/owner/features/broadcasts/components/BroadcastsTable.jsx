@@ -3,9 +3,10 @@ import Button from "@/shared/components/ui/button/Button";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import { BROADCAST_STATUS, BROADCAST_TARGET_LABELS } from "@/shared/constants/broadcast";
+import { formatDateTimeUZ } from "@/shared/utils/date.utils";
 import BroadcastStatusBadge from "./BroadcastStatusBadge";
 
-const formatDate = (iso) => (iso ? new Date(iso).toLocaleString("uz-UZ") : "-");
+const formatDate = (iso) => (iso ? formatDateTimeUZ(iso) : "-");
 
 const BroadcastsTable = ({ items = [], isLoading }) => {
   const { openModal } = useModal();
