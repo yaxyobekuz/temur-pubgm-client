@@ -27,4 +27,9 @@ export const PERMISSIONS = Object.freeze({
   BROADCASTS_CREATE: "broadcasts.create",
   BROADCASTS_UPDATE: "broadcasts.update",
   BROADCASTS_DELETE: "broadcasts.delete",
+
+  HELP_LINKS_READ: "help_links.read",
+  HELP_LINKS_CREATE: "help_links.create",
+  HELP_LINKS_UPDATE: "help_links.update",
+  HELP_LINKS_DELETE: "help_links.delete",
 });

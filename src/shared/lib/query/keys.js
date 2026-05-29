@@ -48,4 +48,8 @@ export const qk = Object.freeze({
     list: (params) => ["broadcasts", "list", params],
     one: (id) => ["broadcasts", "detail", id],
   },
+  helpLinks: {
+    all: () => ["helpLinks"],
+    list: () => ["helpLinks", "list"],
+  },
 });

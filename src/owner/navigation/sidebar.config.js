@@ -28,6 +28,12 @@ const ownerSidebar = [
         url: "/owner/regions",
         permission: PERMISSIONS.REGIONS_READ,
       },
+      {
+        title: "Yordam havolalari",
+        url: "/owner/help-links",
+        permission: PERMISSIONS.HELP_LINKS_READ,
+      },
+      { title: "Profil", url: "/owner/profile" },
     ],
   },
 ];
