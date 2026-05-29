@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import { useRegionUpdate } from "../../hooks/useRegionMutation";
 
 const RegionEditModal = ({ close, region }) => {
@@ -36,26 +36,22 @@ const RegionEditModal = ({ close, region }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Nomi
-        <Input
-          value={name}
-          onChange={(e) => setField("name", e.target.value)}
-          required
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        GMT soat farqi
-        <Input
-          type="number"
-          min={-12}
-          max={14}
-          step={1}
-          value={gmtOffset}
-          onChange={(e) => setField("gmtOffset", e.target.value)}
-          required
-        />
-      </label>
+      <InputField
+        label="Nomi"
+        value={name}
+        onChange={(e) => setField("name", e.target.value)}
+        required
+      />
+      <InputField
+        label="GMT soat farqi"
+        type="number"
+        min={-12}
+        max={14}
+        step={1}
+        value={gmtOffset}
+        onChange={(e) => setField("gmtOffset", e.target.value)}
+        required
+      />
 
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>

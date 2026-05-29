@@ -1,6 +1,6 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import { useRegionCreate } from "../../hooks/useRegionMutation";
 
 const RegionCreateModal = ({ close }) => {
@@ -23,30 +23,24 @@ const RegionCreateModal = ({ close }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Nomi
-        <Input
-          value={name}
-          onChange={(e) => setField("name", e.target.value)}
-          placeholder="Masalan: O'zbekiston"
-          required
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        GMT soat farqi
-        <Input
-          type="number"
-          min={-12}
-          max={14}
-          step={1}
-          value={gmtOffset}
-          onChange={(e) => setField("gmtOffset", e.target.value)}
-          required
-        />
-        <span className="text-xs text-muted-foreground">
-          O'zbekiston uchun 5, Rossiya (Moskva) uchun 3, va h.k.
-        </span>
-      </label>
+      <InputField
+        label="Nomi"
+        value={name}
+        onChange={(e) => setField("name", e.target.value)}
+        placeholder="Masalan: O'zbekiston"
+        required
+      />
+      <InputField
+        label="GMT soat farqi"
+        type="number"
+        min={-12}
+        max={14}
+        step={1}
+        value={gmtOffset}
+        onChange={(e) => setField("gmtOffset", e.target.value)}
+        description="O'zbekiston uchun 5, Rossiya (Moskva) uchun 3, va h.k."
+        required
+      />
 
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>

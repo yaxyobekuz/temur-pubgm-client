@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import Switch from "@/shared/components/ui/switch/Switch";
 import { useHelpLinkUpdate } from "../../hooks/useHelpLinks";
 
@@ -43,30 +43,24 @@ const HelpLinkEditModal = ({ close, link }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Nomi
-        <Input
-          value={name}
-          onChange={(e) => setField("name", e.target.value)}
-          required
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Havola
-        <Input
-          value={url}
-          onChange={(e) => setField("url", e.target.value)}
-          required
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Tartib raqami
-        <Input
-          type="number"
-          value={order}
-          onChange={(e) => setField("order", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Nomi"
+        value={name}
+        onChange={(e) => setField("name", e.target.value)}
+        required
+      />
+      <InputField
+        label="Havola"
+        value={url}
+        onChange={(e) => setField("url", e.target.value)}
+        required
+      />
+      <InputField
+        label="Tartib raqami"
+        type="number"
+        value={order}
+        onChange={(e) => setField("order", e.target.value)}
+      />
       <label className="flex items-center justify-between gap-3 text-sm">
         Faol
         <Switch

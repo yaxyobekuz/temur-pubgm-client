@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import { uploadsAPI } from "@/owner/features/broadcasts/api/uploads.api";
 import { toMediaUrl } from "@/shared/utils/mediaUrl";
 import { useTeamUpdate } from "../../hooks/useTeamMutation";
@@ -55,10 +55,12 @@ const TeamEditModal = ({ close, team }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Nomi
-        <Input value={name} onChange={(e) => setField("name", e.target.value)} required />
-      </label>
+      <InputField
+        label="Nomi"
+        value={name}
+        onChange={(e) => setField("name", e.target.value)}
+        required
+      />
 
       <div className="flex flex-col gap-1.5 text-sm">
         Logotip

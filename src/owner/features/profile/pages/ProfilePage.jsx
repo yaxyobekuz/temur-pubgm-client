@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "@/shared/components/ui/card/Card";
-import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import Button from "@/shared/components/ui/button/Button";
 import useAuth from "@/shared/hooks/useAuth";
 import useObjectState from "@/shared/hooks/useObjectState";
@@ -64,33 +64,27 @@ const ProfilePage = () => {
 
       <Card title="Parolni o'zgartirish">
         <form onSubmit={onSubmit} className="mt-3 flex flex-col gap-4">
-          <label className="flex flex-col gap-1.5 text-sm">
-            Joriy parol
-            <Input
-              type="password"
-              value={state.currentPassword}
-              onChange={(e) => state.setField("currentPassword", e.target.value)}
-              required
-            />
-          </label>
-          <label className="flex flex-col gap-1.5 text-sm">
-            Yangi parol
-            <Input
-              type="password"
-              value={state.newPassword}
-              onChange={(e) => state.setField("newPassword", e.target.value)}
-              required
-            />
-          </label>
-          <label className="flex flex-col gap-1.5 text-sm">
-            Yangi parolni tasdiqlang
-            <Input
-              type="password"
-              value={state.confirmPassword}
-              onChange={(e) => state.setField("confirmPassword", e.target.value)}
-              required
-            />
-          </label>
+          <InputField
+            label="Joriy parol"
+            type="password"
+            value={state.currentPassword}
+            onChange={(e) => state.setField("currentPassword", e.target.value)}
+            required
+          />
+          <InputField
+            label="Yangi parol"
+            type="password"
+            value={state.newPassword}
+            onChange={(e) => state.setField("newPassword", e.target.value)}
+            required
+          />
+          <InputField
+            label="Yangi parolni tasdiqlang"
+            type="password"
+            value={state.confirmPassword}
+            onChange={(e) => state.setField("confirmPassword", e.target.value)}
+            required
+          />
 
           {error && <p className="text-sm text-destructive">{error}</p>}
           {done && <p className="text-sm text-emerald-600">Parol muvaffaqiyatli yangilandi.</p>}

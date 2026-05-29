@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
-import Select from "@/shared/components/ui/select/Select";
+import InputField from "@/shared/components/ui/input/InputField";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import {
   TOURNAMENT_MODE,
   TOURNAMENT_MODE_LABELS,
@@ -85,81 +85,61 @@ const TournamentEditModal = ({ close, tournament }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Sarlavha
-        <Input
-          value={state.title}
-          onChange={(e) => state.setField("title", e.target.value)}
-          required
-        />
-      </label>
+      <InputField
+        label="Sarlavha"
+        value={state.title}
+        onChange={(e) => state.setField("title", e.target.value)}
+        required
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Rejim
-        <Select
-          value={state.mode}
-          onChange={(v) => state.setField("mode", v)}
-          options={MODE_OPTIONS}
-          disabled={!isEditable}
-        />
-        {!isEditable && (
-          <span className="text-xs text-muted-foreground">
-            Rejim faqat kutilayotgan turnirda o'zgartiriladi
-          </span>
-        )}
-      </label>
+      <SelectField
+        label="Rejim"
+        value={state.mode}
+        onChange={(v) => state.setField("mode", v)}
+        options={MODE_OPTIONS}
+        disabled={!isEditable}
+        description={!isEditable ? "Rejim faqat kutilayotgan turnirda o'zgartiriladi" : ""}
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Boshlanish sanasi
-        <Input
-          type="datetime-local"
-          value={state.startDate}
-          onChange={(e) => state.setField("startDate", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Boshlanish sanasi"
+        type="datetime-local"
+        value={state.startDate}
+        onChange={(e) => state.setField("startDate", e.target.value)}
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Mukofot fondi
-        <Input
-          value={state.prizePool}
-          onChange={(e) => state.setField("prizePool", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Mukofot fondi"
+        value={state.prizePool}
+        onChange={(e) => state.setField("prizePool", e.target.value)}
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Maks. komandalar
-        <Input
-          type="number"
-          min={1}
-          value={state.maxTeams}
-          onChange={(e) => state.setField("maxTeams", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Maks. komandalar"
+        type="number"
+        min={1}
+        value={state.maxTeams}
+        onChange={(e) => state.setField("maxTeams", e.target.value)}
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Bosqichlar soni
-        <Input
-          type="number"
-          min={1}
-          max={MAX_STAGES_COUNT}
-          value={state.stagesCount}
-          onChange={(e) => state.setField("stagesCount", e.target.value)}
-          disabled={!isEditable}
-        />
-        {!isEditable && (
-          <span className="text-xs text-muted-foreground">
-            Bosqichlar soni faqat kutilayotgan turnirda o'zgartiriladi
-          </span>
-        )}
-      </label>
+      <InputField
+        label="Bosqichlar soni"
+        type="number"
+        min={1}
+        max={MAX_STAGES_COUNT}
+        value={state.stagesCount}
+        onChange={(e) => state.setField("stagesCount", e.target.value)}
+        disabled={!isEditable}
+        description={
+          !isEditable ? "Bosqichlar soni faqat kutilayotgan turnirda o'zgartiriladi" : ""
+        }
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Banner URL
-        <Input
-          value={state.banner}
-          onChange={(e) => state.setField("banner", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Banner URL"
+        value={state.banner}
+        onChange={(e) => state.setField("banner", e.target.value)}
+      />
 
       <div className="flex flex-col gap-1.5 text-sm">
         Xaritalar
@@ -182,14 +162,12 @@ const TournamentEditModal = ({ close, tournament }) => {
         </div>
       </div>
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Izoh
-        <Input
-          type="textarea"
-          value={state.description}
-          onChange={(e) => state.setField("description", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Izoh"
+        type="textarea"
+        value={state.description}
+        onChange={(e) => state.setField("description", e.target.value)}
+      />
 
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>

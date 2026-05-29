@@ -3,6 +3,7 @@ import { ImagePlus, Plus, Send, X } from "lucide-react";
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
 import Input from "@/shared/components/ui/input/Input";
+import InputField from "@/shared/components/ui/input/InputField";
 import { BROADCAST_TARGET } from "@/shared/constants/broadcast";
 import {
   useBroadcastCreate,
@@ -87,23 +88,19 @@ const MessageTab = ({ tournamentId }) => {
       onSubmit={onSubmit}
       className="flex flex-col gap-4 rounded-[2px] border bg-white p-4"
     >
-      <label className="flex flex-col gap-1.5 text-sm">
-        Sarlavha
-        <Input
-          value={state.title}
-          onChange={(e) => state.setField("title", e.target.value)}
-          required
-        />
-      </label>
+      <InputField
+        label="Sarlavha"
+        value={state.title}
+        onChange={(e) => state.setField("title", e.target.value)}
+        required
+      />
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        Matn (HTML qabul qilinadi)
-        <Input
-          type="textarea"
-          value={state.body}
-          onChange={(e) => state.setField("body", e.target.value)}
-        />
-      </label>
+      <InputField
+        label="Matn (HTML qabul qilinadi)"
+        type="textarea"
+        value={state.body}
+        onChange={(e) => state.setField("body", e.target.value)}
+      />
 
       <div className="flex flex-col gap-1.5 text-sm">
         <div className="flex items-center justify-between">

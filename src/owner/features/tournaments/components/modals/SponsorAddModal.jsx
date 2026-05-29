@@ -1,7 +1,7 @@
 import useObjectState from "@/shared/hooks/useObjectState";
 import Button from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
-import Select from "@/shared/components/ui/select/Select";
+import InputField from "@/shared/components/ui/input/InputField";
+import SelectField from "@/shared/components/ui/select/SelectField";
 import { useSponsorAdd } from "../../hooks/useTournaments";
 import { isPrivateTelegramUrl } from "../../utils/sponsorChannel";
 
@@ -40,44 +40,34 @@ const SponsorAddModal = ({ close, tournament }) => {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-sm">
-        Turi
-        <Select
-          value={state.type}
-          onChange={(v) => state.setField("type", v)}
-          options={TYPE_OPTIONS}
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Sarlavha
-        <Input
-          value={state.title}
-          onChange={(e) => state.setField("title", e.target.value)}
-          required
-        />
-      </label>
-      <label className="flex flex-col gap-1.5 text-sm">
-        Havola
-        <Input
-          value={state.url}
-          onChange={(e) => state.setField("url", e.target.value)}
-          placeholder={isTelegram ? "https://t.me/..." : "https://..."}
-          required
-        />
-      </label>
+      <SelectField
+        label="Turi"
+        value={state.type}
+        onChange={(v) => state.setField("type", v)}
+        options={TYPE_OPTIONS}
+      />
+      <InputField
+        label="Sarlavha"
+        value={state.title}
+        onChange={(e) => state.setField("title", e.target.value)}
+        required
+      />
+      <InputField
+        label="Havola"
+        value={state.url}
+        onChange={(e) => state.setField("url", e.target.value)}
+        placeholder={isTelegram ? "https://t.me/..." : "https://..."}
+        required
+      />
       {isPrivate && (
-        <label className="flex flex-col gap-1.5 text-sm">
-          Chat ID
-          <Input
-            value={state.chatId}
-            onChange={(e) => state.setField("chatId", e.target.value)}
-            placeholder="-100..."
-            required
-          />
-          <span className="text-xs text-muted-foreground">
-            Yopiq kanal aniqlandi. Chat ID kiriting (bot kanalga admin sifatida qo'shilgan bo'lishi kerak).
-          </span>
-        </label>
+        <InputField
+          label="Chat ID"
+          value={state.chatId}
+          onChange={(e) => state.setField("chatId", e.target.value)}
+          placeholder="-100..."
+          required
+          description="Yopiq kanal aniqlandi. Chat ID kiriting (bot kanalga admin sifatida qo'shilgan bo'lishi kerak)."
+        />
       )}
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={() => close?.()}>
