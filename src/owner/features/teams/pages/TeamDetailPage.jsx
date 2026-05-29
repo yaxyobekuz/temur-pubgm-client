@@ -1,39 +1,16 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ChevronLeft, Crown, User } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
-import { toMediaUrl } from "@/shared/utils/mediaUrl";
+import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
 import { useTeamQuery } from "../hooks/useTeamsQuery";
-
-const memberName = (u) =>
-  [u?.firstName, u?.lastName].filter(Boolean).join(" ") ||
-  u?.username ||
-  u?.tgUsername ||
-  "-";
-
-const MemberRow = ({ user, isLeader }) => (
-  <div className="flex items-center justify-between gap-3 rounded-[2px] border bg-white p-3">
-    <div className="flex items-center gap-3">
-      {isLeader ? (
-        <Crown size={18} className="text-primary" />
-      ) : (
-        <User size={18} className="text-muted-foreground" />
-      )}
-      <div>
-        <div className="font-medium">{memberName(user)}</div>
-        {user?.gameNickname && (
-          <div className="text-xs text-muted-foreground">{user.gameNickname}</div>
-        )}
-      </div>
-    </div>
-    {user?.tgUsername && (
-      <Badge variant="secondary">@{user.tgUsername.replace(/^@/, "")}</Badge>
-    )}
-  </div>
-);
+import TeamInfoTab from "../components/tabs/TeamInfoTab";
+import TeamMessageTab from "../components/tabs/TeamMessageTab";
 
 const TeamDetailPage = () => {
   const { id } = useParams();
+  const [tab, setTab] = useState("info");
   const { data: team, isLoading } = useTeamQuery(id);
 
   if (isLoading) {
@@ -43,10 +20,14 @@ const TeamDetailPage = () => {
     return <div className="p-6 text-sm text-muted-foreground">Komanda topilmadi</div>;
   }
 
-  const leaderId = team.leader?._id || team.leader;
-  const members = (team.members || []).filter(
-    (m) => String(m?._id || m) !== String(leaderId),
-  );
+  const tabs = [
+    { value: "info", label: "Ma'lumot", content: <TeamInfoTab team={team} /> },
+    {
+      value: "message",
+      label: "Xabar yuborish",
+      content: <TeamMessageTab teamId={team._id} />,
+    },
+  ];
 
   return (
     <div className="space-y-4">
@@ -63,49 +44,7 @@ const TeamDetailPage = () => {
         </Badge>
       </div>
 
-      <div className="rounded-[2px] border bg-white p-4 flex items-center gap-4">
-        {team.logo ? (
-          <img
-            src={toMediaUrl(team.logo)}
-            alt={team.name}
-            className="size-16 rounded-[2px] border object-cover"
-          />
-        ) : (
-          <div className="size-16 rounded-[2px] border bg-muted" />
-        )}
-        <div className="text-sm">
-          <div className="text-muted-foreground text-xs uppercase">Invite kod</div>
-          <div className="font-mono">{team.inviteCode}</div>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase text-muted-foreground">
-          Sardor
-        </h2>
-        {team.leader ? (
-          <MemberRow user={team.leader} isLeader />
-        ) : (
-          <div className="text-sm text-muted-foreground">Sardor yo'q</div>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase text-muted-foreground">
-          A'zolar ({members.length})
-        </h2>
-        {members.length ? (
-          <div className="flex flex-col gap-2">
-            {members.map((m) => (
-              <MemberRow key={m._id || m} user={m} />
-            ))}
-          </div>
-        ) : (
-          <div className="p-4 text-sm text-muted-foreground rounded-[2px] border bg-white">
-            Boshqa a'zolar yo'q
-          </div>
-        )}
-      </div>
+      <TabsButtons items={tabs} value={tab} onChange={setTab} />
     </div>
   );
 };

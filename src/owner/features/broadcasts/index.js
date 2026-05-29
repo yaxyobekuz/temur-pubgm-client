@@ -1,2 +1,7 @@
 export { default as BroadcastsListPage } from "./pages/BroadcastsListPage";
-export { useBroadcastsQuery } from "./hooks/useBroadcasts";
+export {
+  useBroadcastsQuery,
+  useBroadcastCreate,
+  useAudiencePreview,
+} from "./hooks/useBroadcasts";
+export { uploadsAPI } from "./api/uploads.api";
