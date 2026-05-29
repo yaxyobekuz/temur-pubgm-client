@@ -5,23 +5,16 @@ import Badge from "@/shared/components/ui/badge/Badge";
 import Select from "@/shared/components/ui/select/Select";
 import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
-import {
-  TOURNAMENT_STATUS,
-  getStageLabel,
-  stageStatusFor,
-  stageNumberFromStatus,
-} from "@/shared/constants/tournament";
+import { TOURNAMENT_STATUS, getStageLabel } from "@/shared/constants/tournament";
 import { useGroupsQuery, useGroupRemoveTeam } from "../../hooks/useGroups";
 
-const isStageActive = (tournament, stageOrder) => {
-  const expected = stageStatusFor(stageOrder, tournament.stagesCount);
-  return tournament.status === expected;
-};
+// A stage is active only while the tournament is ONGOING and sitting on that stage.
+const isStageActive = (tournament, stageOrder) =>
+  tournament.status === TOURNAMENT_STATUS.ONGOING &&
+  stageOrder === tournament.currentStage;
 
-const currentStageOrder = (tournament) => {
-  if (tournament.status === TOURNAMENT_STATUS.FINAL) return tournament.stagesCount;
-  return stageNumberFromStatus(tournament.status);
-};
+const currentStageOrder = (tournament) =>
+  tournament.status === TOURNAMENT_STATUS.ONGOING ? tournament.currentStage : null;
 
 const GroupsTab = ({ tournament }) => {
   const { openModal } = useModal();
@@ -85,8 +78,8 @@ const GroupsTab = ({ tournament }) => {
 
       {!active ? (
         <div className="p-4 text-sm text-muted-foreground rounded-[2px] border bg-white">
-          Bu bosqich hozir aktiv emas. Turnir statusi:{" "}
-          <span className="font-medium">{tournament.status}</span>.
+          Bu bosqich hozir aktiv emas. Guruhlar turnir "Boshlandi" holatida va shu
+          bosqichda bo'lganda ko'rinadi.
         </div>
       ) : isLoading ? (
         <div className="p-4 text-sm text-muted-foreground">Yuklanmoqda...</div>

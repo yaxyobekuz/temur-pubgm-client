@@ -1,50 +1,21 @@
 // Mirrors server/src/constants/tournament.js - keep in sync.
-const STAGE_KEYS = Array.from({ length: 9 }, (_, i) => [`STAGE_${i + 1}`, `stage${i + 1}`]);
-
+// Lifecycle status: 3 simple states, freely switchable. Stage (bosqich) is tracked
+// separately via Tournament.currentStage.
 export const TOURNAMENT_STATUS = Object.freeze({
-  DRAFT: "draft",
-  ANNOUNCED: "announced",
-  REGISTRATION: "registration",
-  ...Object.fromEntries(STAGE_KEYS),
-  FINAL: "final",
+  PENDING: "pending",
+  ONGOING: "ongoing",
   FINISHED: "finished",
 });
 
 export const TOURNAMENT_STATUS_LABELS = Object.freeze({
-  [TOURNAMENT_STATUS.DRAFT]: "Qoralama",
-  [TOURNAMENT_STATUS.ANNOUNCED]: "E'lon qilindi",
-  [TOURNAMENT_STATUS.REGISTRATION]: "Ro'yxatdan o'tish",
-  ...Object.fromEntries(STAGE_KEYS.map(([, v], i) => [v, `${i + 1}-bosqich`])),
-  [TOURNAMENT_STATUS.FINAL]: "Final",
+  [TOURNAMENT_STATUS.PENDING]: "Kutilmoqda",
+  [TOURNAMENT_STATUS.ONGOING]: "Boshlandi",
   [TOURNAMENT_STATUS.FINISHED]: "Yakunlandi",
 });
 
-export const stageNumberFromStatus = (status) => {
-  const m = /^stage(\d+)$/.exec(status || "");
-  return m ? Number(m[1]) : null;
-};
-
-export const stageStatusFor = (stageNumber, stagesCount) => {
-  if (stageNumber < 1 || stageNumber > stagesCount) return null;
-  if (stageNumber === stagesCount) return TOURNAMENT_STATUS.FINAL;
-  return `stage${stageNumber}`;
-};
-
-export const allowedNextStatuses = (current, stagesCount = 3) => {
-  if (current === TOURNAMENT_STATUS.FINISHED) return [];
-  const FINISHED = TOURNAMENT_STATUS.FINISHED;
-  if (current === TOURNAMENT_STATUS.DRAFT) return [TOURNAMENT_STATUS.ANNOUNCED, FINISHED];
-  if (current === TOURNAMENT_STATUS.ANNOUNCED) return [TOURNAMENT_STATUS.REGISTRATION, FINISHED];
-  if (current === TOURNAMENT_STATUS.REGISTRATION) {
-    return [stageStatusFor(1, stagesCount), FINISHED].filter(Boolean);
-  }
-  if (current === TOURNAMENT_STATUS.FINAL) return [FINISHED];
-  const n = stageNumberFromStatus(current);
-  if (n !== null) {
-    return [stageStatusFor(n + 1, stagesCount), FINISHED].filter(Boolean);
-  }
-  return [];
-};
+// For the status picker: everything except the current one.
+export const allowedNextStatuses = (current) =>
+  Object.values(TOURNAMENT_STATUS).filter((s) => s !== current);
 
 export const TOURNAMENT_MODE = Object.freeze({
   SOLO: "solo",
@@ -58,7 +29,7 @@ export const TOURNAMENT_MODE_LABELS = Object.freeze({
   [TOURNAMENT_MODE.SQUAD]: "Squad (4)",
 });
 
-// UI helper: order raqami va umumiy soni bo'yicha yorliq.
+// UI helper: stage label by order number and total count.
 export const getStageLabel = (order, total) =>
   order === total ? "Final" : `${order}-bosqich`;
 

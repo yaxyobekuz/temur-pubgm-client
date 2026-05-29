@@ -5,13 +5,9 @@ import {
 } from "@/shared/constants/tournament";
 
 const VARIANTS = {
-  [TOURNAMENT_STATUS.DRAFT]: "secondary",
-  [TOURNAMENT_STATUS.ANNOUNCED]: "outline",
-  [TOURNAMENT_STATUS.REGISTRATION]: "default",
-  [TOURNAMENT_STATUS.STAGE_1]: "default",
-  [TOURNAMENT_STATUS.STAGE_2]: "default",
-  [TOURNAMENT_STATUS.FINAL]: "default",
-  [TOURNAMENT_STATUS.FINISHED]: "secondary",
+  [TOURNAMENT_STATUS.PENDING]: "secondary",
+  [TOURNAMENT_STATUS.ONGOING]: "default",
+  [TOURNAMENT_STATUS.FINISHED]: "outline",
 };
 
 const TournamentStatusBadge = ({ status }) => (

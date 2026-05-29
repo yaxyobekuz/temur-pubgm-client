@@ -12,9 +12,10 @@ const TournamentStatusModal = ({ close, tournament }) => {
   const { mutateAsync, isPending } = useTournamentChangeStatus();
   if (!tournament) return null;
 
-  const options = allowedNextStatuses(tournament.status, tournament.stagesCount).map(
-    (s) => ({ value: s, label: TOURNAMENT_STATUS_LABELS[s] || s }),
-  );
+  const options = allowedNextStatuses(tournament.status).map((s) => ({
+    value: s,
+    label: TOURNAMENT_STATUS_LABELS[s] || s,
+  }));
 
   const onConfirm = async (e) => {
     e.preventDefault();

@@ -57,7 +57,7 @@ const TournamentEditModal = ({ close, tournament }) => {
 
   if (!tournament) return null;
 
-  const isDraft = tournament.status === TOURNAMENT_STATUS.DRAFT;
+  const isEditable = tournament.status === TOURNAMENT_STATUS.PENDING;
 
   const toggleMap = (m) => {
     const has = state.maps.includes(m);
@@ -75,7 +75,7 @@ const TournamentEditModal = ({ close, tournament }) => {
       maps: state.maps,
       maxTeams: Number(state.maxTeams) || 60,
     };
-    if (isDraft) {
+    if (isEditable) {
       body.mode = state.mode;
       body.stagesCount = Number(state.stagesCount) || DEFAULT_STAGES_COUNT;
     }
@@ -100,11 +100,11 @@ const TournamentEditModal = ({ close, tournament }) => {
           value={state.mode}
           onChange={(v) => state.setField("mode", v)}
           options={MODE_OPTIONS}
-          disabled={!isDraft}
+          disabled={!isEditable}
         />
-        {!isDraft && (
+        {!isEditable && (
           <span className="text-xs text-muted-foreground">
-            Rejim faqat qoralama bosqichida o'zgartiriladi
+            Rejim faqat kutilayotgan turnirda o'zgartiriladi
           </span>
         )}
       </label>
@@ -144,11 +144,11 @@ const TournamentEditModal = ({ close, tournament }) => {
           max={MAX_STAGES_COUNT}
           value={state.stagesCount}
           onChange={(e) => state.setField("stagesCount", e.target.value)}
-          disabled={!isDraft}
+          disabled={!isEditable}
         />
-        {!isDraft && (
+        {!isEditable && (
           <span className="text-xs text-muted-foreground">
-            Bosqichlar soni faqat qoralama bosqichida o'zgartiriladi
+            Bosqichlar soni faqat kutilayotgan turnirda o'zgartiriladi
           </span>
         )}
       </label>

@@ -2,19 +2,10 @@ import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import { TOURNAMENT_MODE_LABELS } from "@/shared/constants/tournament";
+import { formatDateTimeUZ } from "@/shared/utils/date.utils";
 import TournamentStatusBadge from "./TournamentStatusBadge";
 
-const formatDate = (iso) => {
-  if (!iso) return "-";
-  const d = new Date(iso);
-  return d.toLocaleString("uz-UZ", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+const formatDate = (iso) => (iso ? formatDateTimeUZ(iso) : "-");
 
 const TournamentsTable = ({ items = [], isLoading }) => {
   if (isLoading) {
@@ -40,7 +31,6 @@ const TournamentsTable = ({ items = [], isLoading }) => {
             <tr key={t._id} className="border-t">
               <td className="px-3 py-2">
                 <div className="font-medium">{t.title}</div>
-                <div className="text-xs text-muted-foreground font-mono">{t.slug}</div>
               </td>
               <td className="px-3 py-2">{TOURNAMENT_MODE_LABELS[t.mode] || t.mode}</td>
               <td className="px-3 py-2">{formatDate(t.startDate)}</td>

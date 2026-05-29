@@ -4,14 +4,14 @@ import useModal from "@/shared/hooks/useModal";
 import { MODAL } from "@/shared/constants/modals";
 import {
   TOURNAMENT_MODE_LABELS,
+  TOURNAMENT_STATUS,
   allowedNextStatuses,
+  getStageLabel,
 } from "@/shared/constants/tournament";
+import { formatDateTimeUZ } from "@/shared/utils/date.utils";
 import TournamentStatusBadge from "../TournamentStatusBadge";
 
-const formatDate = (iso) => {
-  if (!iso) return "-";
-  return new Date(iso).toLocaleString("uz-UZ");
-};
+const formatDate = (iso) => (iso ? formatDateTimeUZ(iso) : "-");
 
 const Row = ({ label, children }) => (
   <div className="flex flex-col gap-1 border-t py-2 first:border-t-0 sm:flex-row sm:items-center">
@@ -60,6 +60,11 @@ const InfoTab = ({ tournament }) => {
         <Row label="Sarlavha">{tournament.title}</Row>
         <Row label="Slug"><span className="font-mono text-xs">{tournament.slug}</span></Row>
         <Row label="Status"><TournamentStatusBadge status={tournament.status} /></Row>
+        {tournament.status === TOURNAMENT_STATUS.ONGOING && (
+          <Row label="Joriy bosqich">
+            {getStageLabel(tournament.currentStage, tournament.stagesCount)}
+          </Row>
+        )}
         <Row label="Rejim">{TOURNAMENT_MODE_LABELS[tournament.mode] || tournament.mode}</Row>
         <Row label="Boshlanish">{formatDate(tournament.startDate)}</Row>
         <Row label="Mukofot fondi">{tournament.prizePool || "-"}</Row>
