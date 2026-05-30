@@ -20,13 +20,16 @@ const SecretGroupTab = ({ tournament }) => {
 
   const urlInvalid = state.url.trim() && !isPrivateTelegramUrl(state.url);
   const resolved = !!sg.chatId;
+  const canSubmit =
+    isPrivateTelegramUrl(state.url) && !!state.chatId.trim() && !saving;
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!isPrivateTelegramUrl(state.url)) return;
-    const body = { url: state.url.trim() };
-    if (state.chatId.trim()) body.chatId = state.chatId.trim();
-    await save({ id: tournament._id, body });
+    if (!isPrivateTelegramUrl(state.url) || !state.chatId.trim()) return;
+    await save({
+      id: tournament._id,
+      body: { url: state.url.trim(), chatId: state.chatId.trim() },
+    });
   };
 
   return (
@@ -56,9 +59,9 @@ const SecretGroupTab = ({ tournament }) => {
               </a>
               <div className="mt-1">
                 {resolved ? (
-                  <Badge variant="default">Aniqlangan ✅</Badge>
+                  <Badge variant="default">Sozlangan ✅</Badge>
                 ) : (
-                  <Badge variant="destructive">Bot admin qilinishini kutmoqda</Badge>
+                  <Badge variant="destructive">Chat ID kiritilmagan</Badge>
                 )}
               </div>
             </div>
@@ -74,13 +77,11 @@ const SecretGroupTab = ({ tournament }) => {
         </div>
       )}
 
-      {!resolved && sg.url && (
-        <div className="rounded-[2px] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-          Chat ID hali aniqlanmagan. 1) Havolani saqlang. 2) Botni o'sha yopiq guruhga
-          <b> admin</b> qiling - bot chat ID'ni avtomatik aniqlaydi. (Yoki pastda Chat ID'ni
-          qo'lda kiriting.)
-        </div>
-      )}
+      <div className="rounded-[2px] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
+        <b>Chat ID'ni qanday olish:</b> 1) Botni yopiq guruhga <b>admin</b> qiling. 2) Guruh
+        ichida <code>/id</code> buyrug'ini yuboring. 3) Bot qaytargan raqamni quyidagi
+        "Chat ID" maydoniga kiriting.
+      </div>
 
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <InputField
@@ -92,13 +93,14 @@ const SecretGroupTab = ({ tournament }) => {
           description={urlInvalid ? "Yopiq (t.me/+...) havola kiriting" : ""}
         />
         <InputField
-          label="Chat ID (ixtiyoriy - avto-aniqlash ishlamasa)"
+          label="Chat ID"
           value={state.chatId}
           onChange={(e) => state.setField("chatId", e.target.value)}
           placeholder="-100..."
+          required
         />
         <div className="flex justify-end">
-          <Button type="submit" disabled={saving || urlInvalid || !state.url.trim()}>
+          <Button type="submit" disabled={!canSubmit}>
             {saving ? "Saqlanmoqda..." : "Saqlash"}
           </Button>
         </div>
