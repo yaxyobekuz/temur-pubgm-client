@@ -21,6 +21,7 @@ export const BROADCAST_TARGET = Object.freeze({
   REGION: "region",
   TOURNAMENT: "tournament",
   TEAM: "team",
+  USER: "user",
 });
 
 export const BROADCAST_TARGET_LABELS = Object.freeze({
@@ -29,4 +30,5 @@ export const BROADCAST_TARGET_LABELS = Object.freeze({
   [BROADCAST_TARGET.REGION]: "Mintaqa bo'yicha",
   [BROADCAST_TARGET.TOURNAMENT]: "Turnir ishtirokchilariga",
   [BROADCAST_TARGET.TEAM]: "Komandaga",
+  [BROADCAST_TARGET.USER]: "Foydalanuvchiga",
 });

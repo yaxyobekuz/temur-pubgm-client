@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import DashboardPage from "@/owner/pages/DashboardPage";
 import { RegionsListPage } from "@/owner/features/regions";
+import { UsersListPage, UserDetailPage } from "@/owner/features/users";
 import { TeamsListPage, TeamDetailPage } from "@/owner/features/teams";
 import {
   TournamentsListPage,
@@ -15,6 +16,8 @@ const OwnerRoutes = () => (
   <Routes>
     <Route index element={<Navigate to="dashboard" replace />} />
     <Route path="dashboard" element={<DashboardPage />} />
+    <Route path="users" element={<UsersListPage />} />
+    <Route path="users/:id" element={<UserDetailPage />} />
     <Route path="regions" element={<RegionsListPage />} />
     <Route path="teams" element={<TeamsListPage />} />
     <Route path="teams/:id" element={<TeamDetailPage />} />

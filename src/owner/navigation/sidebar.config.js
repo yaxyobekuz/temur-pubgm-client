@@ -9,6 +9,11 @@ const ownerSidebar = [
     items: [
       { title: "Bosh sahifa", url: "/owner/dashboard" },
       {
+        title: "Foydalanuvchilar",
+        url: "/owner/users",
+        permission: PERMISSIONS.USERS_READ,
+      },
+      {
         title: "Turnirlar",
         url: "/owner/tournaments",
         permission: PERMISSIONS.TOURNAMENTS_READ,
