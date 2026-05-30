@@ -1,4 +1,5 @@
-import { ROLE_LABELS } from "@/shared/constants/roles";
+import { ROLES, ROLE_LABELS } from "@/shared/constants/roles";
+import Badge from "@/shared/components/ui/badge/Badge";
 import { formatPhone } from "@/shared/utils/formatPhone";
 import { formatDateUz } from "@/shared/utils/formatDate";
 
@@ -9,9 +10,21 @@ const Row = ({ label, value }) => (
   </div>
 );
 
+const RoleBadge = ({ role }) => {
+  const className =
+    role === ROLES.LEADER
+      ? "bg-amber-100 text-amber-700 hover:bg-amber-100"
+      : "bg-sky-100 text-sky-700 hover:bg-sky-100";
+  return (
+    <Badge variant="secondary" className={className}>
+      {ROLE_LABELS[role] || role}
+    </Badge>
+  );
+};
+
 const UserInfoTab = ({ user }) => {
   const tgUsername = user.tgUsername?.replace(/^@/, "");
-  const regionName = typeof user.region === "object" ? user.region?.name : null;
+  const regionName = user.region?.name || null;
 
   const telegram = tgUsername ? (
     <a
@@ -28,7 +41,7 @@ const UserInfoTab = ({ user }) => {
 
   return (
     <div className="rounded-[2px] border bg-white">
-      <Row label="Rol" value={ROLE_LABELS[user.role] || user.role} />
+      <Row label="Rol" value={<RoleBadge role={user.role} />} />
       <Row label="Ism" value={user.firstName} />
       <Row label="Familiya" value={user.lastName} />
       <Row label="Telegram" value={telegram} />
