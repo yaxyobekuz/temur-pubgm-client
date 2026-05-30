@@ -5,7 +5,11 @@ import Button from "@/shared/components/ui/button/Button";
 import Badge from "@/shared/components/ui/badge/Badge";
 import InputField from "@/shared/components/ui/input/InputField";
 import { isPrivateTelegramUrl } from "../../utils/sponsorChannel";
-import { useSecretGroupSet, useSecretGroupClear } from "../../hooks/useTournaments";
+import {
+  useSecretGroupSet,
+  useSecretGroupClear,
+} from "../../hooks/useTournaments";
+import Card from "@/shared/components/ui/card/Card";
 
 const SecretGroupTab = ({ tournament }) => {
   const sg = tournament.secretGroup || {};
@@ -33,12 +37,7 @@ const SecretGroupTab = ({ tournament }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Maxfiy guruh - turnirga ro'yxatdan o'tish uchun jamoa sardori qo'shilishi shart bo'lgan
-        yopiq guruh. O'yinchilar bu guruh uchun tekshirilmaydi.
-      </p>
-
+    <div className="flex flex-col gap-4 min-h-svh">
       {sg.url && (
         <div className="rounded-[2px] border bg-white p-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -77,11 +76,18 @@ const SecretGroupTab = ({ tournament }) => {
         </div>
       )}
 
-      <div className="rounded-[2px] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-        <b>Chat ID'ni qanday olish:</b> 1) Botni yopiq guruhga <b>admin</b> qiling. 2) Guruh
-        ichida <code>/id</code> buyrug'ini yuboring. 3) Bot qaytargan raqamni quyidagi
-        "Chat ID" maydoniga kiriting.
-      </div>
+      <Card className="border-amber-300 text-amber-800 text-sm">
+        <b>Chat ID'ni olish tartibi:</b>
+        <ol className="list-decimal list-inside mt-2 space-y-1">
+          <li>
+            Botni yopiq guruhga <b>admin</b> qiling.
+          </li>
+          <li>
+            Guruh ichida <b>/id</b> buyrug'ini yuboring.
+          </li>
+          <li>Bot qaytargan raqamni quyidagi "Chat ID" maydoniga kiriting.</li>
+        </ol>
+      </Card>
 
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <InputField
