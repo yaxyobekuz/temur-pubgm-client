@@ -23,7 +23,6 @@ const UsersTable = ({ items = [], isLoading }) => {
           <tr>
             <th className="px-3 py-2 font-medium text-left">Ism</th>
             <th className="px-3 py-2 font-medium text-left">Telegram</th>
-            <th className="px-3 py-2 font-medium text-left">O'yin nomi</th>
             <th className="px-3 py-2 font-medium text-left">Telefon</th>
             <th className="px-3 py-2 font-medium text-left">Holat</th>
           </tr>
@@ -44,7 +43,6 @@ const UsersTable = ({ items = [], isLoading }) => {
               >
                 <td className="px-3 py-2 font-medium">{name}</td>
                 <td className="px-3 py-2">{telegram}</td>
-                <td className="px-3 py-2">{u.gameNickname || "-"}</td>
                 <td className="px-3 py-2">{phone}</td>
                 <td className="px-3 py-2">
                   <Badge variant={u.isActive ? "default" : "secondary"}>
