@@ -82,3 +82,20 @@ export const useSponsorRemove = () => {
     onSuccess: (_data, { id }) => invalidateOne(qc, id),
   });
 };
+
+export const useSecretGroupSet = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }) =>
+      tournamentsAPI.setSecretGroup(id, body).then((r) => r.data.data),
+    onSuccess: (_data, { id }) => invalidateOne(qc, id),
+  });
+};
+
+export const useSecretGroupClear = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => tournamentsAPI.clearSecretGroup(id).then((r) => r.data.data),
+    onSuccess: (_data, id) => invalidateOne(qc, id),
+  });
+};

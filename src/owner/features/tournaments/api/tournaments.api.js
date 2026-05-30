@@ -13,4 +13,6 @@ export const tournamentsAPI = {
   addSponsor: (id, body) => http.post(ENDPOINTS.tournaments.sponsorChannels(id), body),
   removeSponsor: (id, channelId) =>
     http.delete(ENDPOINTS.tournaments.sponsorChannelById(id, channelId)),
+  setSecretGroup: (id, body) => http.put(ENDPOINTS.tournaments.secretGroup(id), body),
+  clearSecretGroup: (id) => http.delete(ENDPOINTS.tournaments.secretGroup(id)),
 };

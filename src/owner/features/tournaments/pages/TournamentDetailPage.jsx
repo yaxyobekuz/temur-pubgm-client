@@ -9,6 +9,7 @@ import { useTournamentQuery } from "../hooks/useTournaments";
 import InfoTab from "../components/tabs/InfoTab";
 import GroupsTab from "../components/tabs/GroupsTab";
 import SponsorTab from "../components/tabs/SponsorTab";
+import SecretGroupTab from "../components/tabs/SecretGroupTab";
 import RegistrationsTab from "../components/tabs/RegistrationsTab";
 import MessageTab from "../components/tabs/MessageTab";
 import RegistrationKickModal from "../components/modals/RegistrationKickModal";
@@ -45,6 +46,11 @@ const TournamentDetailPage = () => {
       value: "sponsors",
       label: "Homiy kanallar",
       content: <SponsorTab tournament={tournament} />,
+    },
+    {
+      value: "secret-group",
+      label: "Maxfiy guruh",
+      content: <SecretGroupTab tournament={tournament} />,
     },
     {
       value: "registrations",

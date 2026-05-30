@@ -40,6 +40,7 @@ export const ENDPOINTS = Object.freeze({
     sponsorChannels: (id) => `/tournaments/${id}/sponsor-channels`,
     sponsorChannelById: (id, channelId) =>
       `/tournaments/${id}/sponsor-channels/${channelId}`,
+    secretGroup: (id) => `/tournaments/${id}/secret-group`,
   },
   groups: {
     base: "/groups",
