@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import Button from "@/shared/components/ui/button/Button";
 import TabsButtons from "@/shared/components/ui/tabs/TabsButtons";
@@ -25,7 +25,8 @@ import GroupAddTeamModal from "../components/modals/GroupAddTeamModal";
 
 const TournamentDetailPage = () => {
   const { id } = useParams();
-  const [tab, setTab] = useState("info");
+  const [searchParams] = useSearchParams();
+  const [tab, setTab] = useState(searchParams.get("tab") || "info");
   const { data: tournament, isLoading } = useTournamentQuery(id);
 
   if (isLoading) {

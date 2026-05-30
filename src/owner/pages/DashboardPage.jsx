@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Trophy, Users, Send, Globe, Plus, PlayCircle } from "lucide-react";
+import { Trophy, Users, Send, Globe, Plus, PlayCircle, ShieldAlert } from "lucide-react";
 import StatCard from "@/shared/components/ui/card/StatCard";
 import Card from "@/shared/components/ui/card/Card";
 import Button from "@/shared/components/ui/button/Button";
@@ -26,6 +26,10 @@ const DashboardPage = () => {
   const teamsTotal = teamData?.meta?.total ?? (teamData?.data || []).length;
   const ongoing = tournaments.filter((t) => t.status === TOURNAMENT_STATUS.ONGOING);
   const pending = tournaments.filter((t) => t.status === TOURNAMENT_STATUS.PENDING);
+  // Maxfiy guruh havolasi bor, lekin chatId hali aniqlanmagan (bot admin qilinmagan).
+  const unresolvedSecretGroups = tournaments.filter(
+    (t) => t.secretGroup?.url && !t.secretGroup?.chatId,
+  );
 
   const actions = QUICK_ACTIONS.filter((a) => !a.permission || has(a.permission));
 
@@ -55,6 +59,27 @@ const DashboardPage = () => {
                   {a.label}
                 </Link>
               </Button>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {unresolvedSecretGroups.length > 0 && (
+        <Card title="Maxfiy guruh ogohlantirishlari">
+          <div className="mt-3 space-y-2">
+            {unresolvedSecretGroups.map((t) => (
+              <Link
+                key={t._id}
+                to={`/owner/tournaments/${t._id}?tab=secret-group`}
+                className="flex items-start gap-3 rounded-[2px] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 hover:bg-amber-100"
+              >
+                <ShieldAlert size={18} className="mt-0.5 shrink-0" />
+                <span>
+                  <span className="font-medium">{t.title}</span> — turnir guruhiga
+                  bot hali admin qilinmagan. Botni o'sha yopiq guruhga{" "}
+                  <b>admin</b> qiling (chat ID avtomatik aniqlanadi).
+                </span>
+              </Link>
             ))}
           </div>
         </Card>
