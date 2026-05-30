@@ -39,12 +39,27 @@ const UserInfoTab = ({ user }) => {
     user.tgId || "-"
   );
 
+  const contactUsername = user.contactUsername?.replace(/^@/, "");
+  const contact = contactUsername ? (
+    <a
+      href={`https://t.me/${contactUsername}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-primary hover:underline"
+    >
+      @{contactUsername}
+    </a>
+  ) : (
+    "-"
+  );
+
   return (
     <div className="rounded-[2px] border bg-white">
       <Row label="Rol" value={<RoleBadge role={user.role} />} />
       <Row label="Ism" value={user.firstName} />
       <Row label="Familiya" value={user.lastName} />
       <Row label="Telegram" value={telegram} />
+      <Row label="Aloqa username" value={contact} />
       <Row label="Telefon" value={formatPhone(user.phone)} />
       <Row label="Mintaqa" value={regionName} />
       <Row label="Ro'yxatdan o'tgan" value={formatDateUz(user.createdAt)} />
