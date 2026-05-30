@@ -32,7 +32,7 @@ const SecretGroupTab = ({ tournament }) => {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm text-muted-foreground">
-        Maxfiy guruh — turnirga ro'yxatdan o'tish uchun jamoa sardori qo'shilishi shart bo'lgan
+        Maxfiy guruh - turnirga ro'yxatdan o'tish uchun jamoa sardori qo'shilishi shart bo'lgan
         yopiq guruh. O'yinchilar bu guruh uchun tekshirilmaydi.
       </p>
 
@@ -77,7 +77,7 @@ const SecretGroupTab = ({ tournament }) => {
       {!resolved && sg.url && (
         <div className="rounded-[2px] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
           Chat ID hali aniqlanmagan. 1) Havolani saqlang. 2) Botni o'sha yopiq guruhga
-          <b> admin</b> qiling — bot chat ID'ni avtomatik aniqlaydi. (Yoki pastda Chat ID'ni
+          <b> admin</b> qiling - bot chat ID'ni avtomatik aniqlaydi. (Yoki pastda Chat ID'ni
           qo'lda kiriting.)
         </div>
       )}
@@ -92,7 +92,7 @@ const SecretGroupTab = ({ tournament }) => {
           description={urlInvalid ? "Yopiq (t.me/+...) havola kiriting" : ""}
         />
         <InputField
-          label="Chat ID (ixtiyoriy — avto-aniqlash ishlamasa)"
+          label="Chat ID (ixtiyoriy - avto-aniqlash ishlamasa)"
           value={state.chatId}
           onChange={(e) => state.setField("chatId", e.target.value)}
           placeholder="-100..."

@@ -75,7 +75,7 @@ const DashboardPage = () => {
               >
                 <ShieldAlert size={18} className="mt-0.5 shrink-0" />
                 <span>
-                  <span className="font-medium">{t.title}</span> — turnir guruhiga
+                  <span className="font-medium">{t.title}</span> - turnir guruhiga
                   bot hali admin qilinmagan. Botni o'sha yopiq guruhga{" "}
                   <b>admin</b> qiling (chat ID avtomatik aniqlanadi).
                 </span>
@@ -90,7 +90,7 @@ const DashboardPage = () => {
           {pending.length > 0 && (
             <li>
               <span className="font-medium">{pending.length}</span> ta turnir ro'yxat
-              kutmoqda — boshlash uchun statusni "Boshlandi"ga o'tkazing.
+              kutmoqda - boshlash uchun statusni "Boshlandi"ga o'tkazing.
             </li>
           )}
           {ongoing.length > 0 && (
